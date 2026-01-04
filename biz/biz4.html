@@ -29,19 +29,9 @@ h1, h2, h3 {
   font-family: 'Baloo 2', cursive;
 }
 
-h1 {
-  margin-bottom: 28px;
-}
-
-h2 {
-  margin-top: 50px;
-  margin-bottom: 16px;
-}
-
-h3 {
-  margin-top: 35px;
-  margin-bottom: 12px;
-}
+h1 { margin-bottom: 28px; }
+h2 { margin-top: 50px; margin-bottom: 16px; }
+h3 { margin-top: 35px; margin-bottom: 12px; }
 
 p {
   line-height: 1.8;
@@ -54,11 +44,8 @@ ul {
   margin-bottom: 22px;
 }
 
-li {
-  margin-bottom: 8px;
-}
+li { margin-bottom: 8px; }
 
-/* Table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -91,23 +78,11 @@ th {
   font-size: 14px;
 }
 
-.links {
+.links, .questions {
   background: #f7f7f7;
   padding: 22px 26px;
   border-radius: 18px;
   margin: 28px 0;
-}
-
-.links a {
-  color: #333;
-  text-decoration: underline;
-}
-
-.questions {
-  background: #f7f7f7;
-  padding: 25px 30px;
-  border-radius: 18px;
-  margin-top: 30px;
 }
 
 .back {
@@ -137,302 +112,146 @@ footer {
 }
 
 @media (max-width: 600px) {
-  .container {
-    padding: 30px 24px;
-  }
+  .container { padding: 30px 24px; }
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
 <h1>Stripe Payment Intents API  
 — Accounting-Focused Overview</h1>
 
 <p>
-Stripe’s <strong>Payment Intents API</strong> was designed to manage
-modern payment flows (3D Secure, async authorization, retries).
+This article explains Stripe payment events
+through the lens of <strong>IFRS 15 and US GAAP</strong>,
+with a focus on <strong>revenue recognition</strong>.
 </p>
 
+<!-- IFRS 15 Five-Step Model -->
+<h2>IFRS 15: Five-Step Revenue Recognition Model</h2>
+
+<h3>Step 1: Identify the Contract</h3>
 <p>
-However, many teams mistakenly assume that
-<strong>“payment success” equals revenue</strong>.
-This article reorganizes Stripe’s objects and events
-from a <strong>US GAAP accounting perspective</strong>.
+A contract exists when enforceable rights and obligations arise.
+This is usually established at order confirmation —
+not when a payment flow starts.
+</p>
+
+<h3>Step 2: Identify Performance Obligations</h3>
+<p>
+Each distinct good or service must be identified.
+Most Stripe use cases involve a single obligation
+satisfied at a point in time.
+</p>
+
+<h3>Step 3: Determine the Transaction Price</h3>
+<p>
+The transaction price is the amount expected to be received.
+Stripe fees and refunds affect presentation,
+not the transaction price itself.
+</p>
+
+<h3>Step 4: Allocate the Transaction Price</h3>
+<p>
+If multiple obligations exist,
+the price is allocated based on relative stand-alone selling prices.
+</p>
+
+<h3>Step 5: Recognize Revenue</h3>
+<p>
+Revenue is recognized when control transfers to the customer.
+This typically aligns with
+<strong><code>charge.created</code> or <code>charge.succeeded</code></strong>,
+not Stripe balance availability.
 </p>
 
 <div class="highlight">
-<p>
-<strong>Legend</strong><br>
-- Accounting entry required<br>
-- Conditional / review needed<br>
-- No accounting impact
-</p>
+<strong>Key takeaway:</strong><br>
+Revenue follows economic substance, not cash movement.
 </div>
 
-<h2>Official Stripe Documentation</h2>
-
-<div class="links">
-<ul>
-  <li>
-    <strong>Payment Intents API Reference</strong><br>
-    REST API specification for creating, retrieving, and managing PaymentIntents<br>
-    👉 <a href="https://docs.stripe.com/api/payment_intents" target="_blank">
-    https://docs.stripe.com/api/payment_intents
-    </a>
-  </li>
-  <li>
-    <strong>Payment Intents Overview & Guide</strong><br>
-    Conceptual explanation of PaymentIntent purpose and lifecycle<br>
-    👉 <a href="https://docs.stripe.com/payments/payment-intents" target="_blank">
-    https://docs.stripe.com/payments/payment-intents
-    </a>
-  </li>
-  <li>
-    <strong>Create a PaymentIntent (API Example)</strong><br>
-    Concrete REST API request and parameters<br>
-    👉 <a href="https://docs.stripe.com/api/payment_intents/create" target="_blank">
-    https://docs.stripe.com/api/payment_intents/create
-    </a>
-  </li>
-</ul>
-</div>
-
-<h2>1️. Payment Intent: Flow Control (Not Money)</h2>
-
-<p>
-According to Stripe’s official guide,
-PaymentIntents exist to
-<strong>track the state of a payment attempt</strong> —
-not to represent money or revenue.
-</p>
+<!-- Stripe Objects -->
+<h2>Stripe API Objects Often Confused with Revenue</h2>
 
 <table>
 <thead>
 <tr>
-  <th>Object / Event</th>
-  <th>Role</th>
-  <th>Accounting</th>
-  <th>GAAP Interpretation</th>
+<th>Stripe Object</th>
+<th>Meaning</th>
+<th>Revenue?</th>
+<th>Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td>payment_intent.created</td>
-  <td>Payment attempt starts</td>
-  <td>❌</td>
-  <td>No enforceable right (ASC 606)</td>
+<td>payment_intent.succeeded</td>
+<td>Payment flow completed</td>
+<td>❌</td>
+<td>No settlement guarantee</td>
 </tr>
 <tr>
-  <td>payment_intent.processing</td>
-  <td>Authorization ongoing</td>
-  <td>❌</td>
-  <td>Outcome uncertain</td>
+<td>balance.available</td>
+<td>Withdrawable funds</td>
+<td>❌</td>
+<td>Cash timing only</td>
 </tr>
 <tr>
-  <td>payment_intent.succeeded</td>
-  <td>Logical success state</td>
-  <td>❌</td>
-  <td>Not a revenue trigger</td>
+<td><strong>charge.created</strong></td>
+<td>Legal charge established</td>
+<td>⚠️</td>
+<td>Authorization risk remains</td>
 </tr>
 <tr>
-  <td>payment_intent.payment_failed</td>
-  <td>Failure state</td>
-  <td>❌</td>
-  <td>No consideration received</td>
+<td><strong>charge.succeeded</strong></td>
+<td>Approved and settled</td>
+<td>✅</td>
+<td>Enforceable right exists</td>
 </tr>
 </tbody>
 </table>
 
-<p class="note">
-✔ PaymentIntent states help developers, not accountants.
-</p>
-
-<h2>2️. Charge: Revenue Recognition Anchor</h2>
-
-<p>
-While PaymentIntents manage flow,
-<strong>revenue is anchored to the Charge object</strong>.
-</p>
-
-<table>
-<thead>
-<tr>
-  <th>Object / Event</th>
-  <th>Meaning</th>
-  <th>Accounting</th>
-  <th>Reference</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>charge.created</td>
-  <td>Authorization attempt</td>
-  <td>⚠️</td>
-  <td>May still fail</td>
-</tr>
-<tr>
-  <td><strong>charge.succeeded</strong></td>
-  <td>Approved & settled</td>
-  <td>✅ <strong>Revenue</strong></td>
-  <td><strong>ASC 606-10-25</strong></td>
-</tr>
-<tr>
-  <td>charge.failed</td>
-  <td>Authorization failed</td>
-  <td>❌</td>
-  <td>No transaction</td>
-</tr>
-<tr>
-  <td>charge.refunded</td>
-  <td>Refund initiated</td>
-  <td>⚠️</td>
-  <td>Contra revenue review</td>
-</tr>
-</tbody>
-</table>
+<!-- Internal Discussion -->
+<h2>Internal Discussion: Revenue Timing</h2>
 
 <div class="highlight">
-<p>
-<strong>Practical rule:</strong><br>
-Never book revenue on <code>payment_intent.succeeded</code>.<br>
-Always anchor revenue to <code>charge.succeeded</code>.
-</p>
+<p><strong>Manager:</strong>  
+Why are we recognizing revenue based on <code>balance.available</code>?</p>
+
+<p><strong>Staff:</strong>  
+Because that’s when cash becomes available in Stripe.</p>
+
+<p><strong>Manager:</strong>  
+Cash availability does not define revenue under IFRS 15.</p>
+
+<p><strong>Staff:</strong>  
+Then what timing is more appropriate?</p>
+
+<p><strong>Manager:</strong>  
+Revenue aligns more closely with
+<code>charge.created</code> or <code>charge.succeeded</code>,
+when the right to consideration exists.</p>
 </div>
 
-<h2>3️. Balance Transactions: Stripe’s Sub-Ledger</h2>
-
-<p>
-Stripe internally records every money movement
-as a <strong>balance_transaction</strong>.
-These entries are essential for reconciliation.
-</p>
-
-<table>
-<thead>
-<tr>
-  <th>Type</th>
-  <th>Meaning</th>
-  <th>Accounting</th>
-  <th>Standard</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>charge</td>
-  <td>Gross revenue</td>
-  <td>✅</td>
-  <td>ASC 606</td>
-</tr>
-<tr>
-  <td>fee</td>
-  <td>Stripe fee</td>
-  <td>✅</td>
-  <td>Matching principle</td>
-</tr>
-<tr>
-  <td>refund</td>
-  <td>Revenue reversal</td>
-  <td>✅</td>
-  <td>Contra revenue</td>
-</tr>
-<tr>
-  <td>dispute</td>
-  <td>Potential loss</td>
-  <td>⚠️</td>
-  <td>ASC 450</td>
-</tr>
-</tbody>
-</table>
-
-<h2>4️. Stripe Balance vs Cash</h2>
-
-<table>
-<thead>
-<tr>
-  <th>Object</th>
-  <th>Meaning</th>
-  <th>Accounting</th>
-  <th>Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>balance.pending</td>
-  <td>Held by Stripe</td>
-  <td>❌</td>
-  <td>Not cash</td>
-</tr>
-<tr>
-  <td>balance.available</td>
-  <td>Withdrawable</td>
-  <td>❌</td>
-  <td>Still not cash</td>
-</tr>
-</tbody>
-</table>
-
-<h2>5️. Payouts: When Cash Exists</h2>
-
-<table>
-<thead>
-<tr>
-  <th>Event</th>
-  <th>Meaning</th>
-  <th>Accounting</th>
-  <th>Standard</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>payout.created</td>
-  <td>Transfer initiated</td>
-  <td>❌</td>
-  <td>No control yet</td>
-</tr>
-<tr>
-  <td><strong>payout.paid</strong></td>
-  <td>Bank deposit completed</td>
-  <td>✅ <strong>Cash</strong></td>
-  <td><strong>ASC 305</strong></td>
-</tr>
-</tbody>
-</table>
-
-<h2>[One-Line Accounting Map]</h2>
+<h2>One-Line Accounting Map</h2>
 
 <div class="highlight">
 <pre>
 Revenue → charge.succeeded
 Fees    → balance_transaction (fee)
 Cash    → payout.paid
-Refund  → refund.created / succeeded
-Loss    → dispute.closed
 </pre>
-</div>
-
-<h2>Discussion Questions</h2>
-
-<div class="questions">
-<ul>
-  <li>Why did Stripe separate PaymentIntents from Charges?</li>
-  <li>What risks arise if revenue is booked too early?</li>
-  <li>Should accounting rely more on events or balances?</li>
-  <li>How would this change for subscriptions or marketplaces?</li>
-</ul>
 </div>
 
 <div class="back">
   <a href="../">← Back to Home</a>
-  <a href="../biz.html">← Back to Articles</a>
 </div>
 
 </div>
 
 <footer>
-  © <span id="year"></span> Cha GPTs. All rights reserved.
+© <span id="year"></span> Cha GPTs. All rights reserved.
 </footer>
 
 <script>
