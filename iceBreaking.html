@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ice Breaking Cards</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 22px 14px 40px;
+      font-family: 'Quicksand', Arial, sans-serif;
+      text-align: center;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
+        url("verse.png") no-repeat center / cover;
+    }
+
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 22px 18px;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .category {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .question {
+      font-size: 16px;
+      color: #222;
+      line-height: 1.45;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px 0;
+      border-radius: 30px;
+      border: none;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .draw-btn {
+      background: #111;
+      color: #fff;
+    }
+
+    .home-btn {
+      background: #e0e0e0;
+      color: #111;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+        /* 카드 등장 애니메이션 */
+    .card {
+      animation: drawCard 0.45s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+    }
+    
+    @keyframes drawCard {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    /* 셔플 중 효과 */
+    .shuffle {
+      opacity: 0.4;
+      filter: blur(1px);
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>Ice Breaking Cards</h1>
+    <div class="subtitle">
+      Click the button and draw 3 cards.<br>
+      Short answers are totally fine.
+    </div>
+
+    <div id="cards"></div>
+
+    <button class="draw-btn" onclick="drawCards()">Draw 3 Cards</button>
+    <button class="home-btn" onclick="location.href='index.html'">← Back to Home</button>
+
+  </div>
+
+  <script>
+    const questions = [
+      // Local
+      { c:"Local", q:"Do you follow any local sports teams?" },
+      { c:"Local", q:"What’s your favorite restaurant around here?" },
+      { c:"Local", q:"Do you have a favorite event you’ve seen locally?" },
+      { c:"Local", q:"Is there anything I should avoid in your area?" },
+      { c:"Local", q:"Do you know any cool local places to hang out?" },
+      { c:"Local", q:"What do you like most about living here?" },
+      { c:"Local", q:"What’s different about this town from others you’ve lived in?" },
+      { c:"Local", q:"Do you have a favorite park around here?" },
+      { c:"Local", q:"Have you lived here your whole life?" },
+      { c:"Local", q:"What local place do you think is underrated?" },
+
+      // Work
+      { c:"Work", q:"What attracted you to your industry/field?" },
+      { c:"Work", q:"How did you find out about your current role?" },
+      { c:"Work", q:"What’s the funniest thing that’s happened at work?" },
+      { c:"Work", q:"Do you work remotely or in person?" },
+      { c:"Work", q:"What’s the best career advice you’ve heard?" },
+      { c:"Work", q:"What surprised you most about your job?" },
+      { c:"Work", q:"What’s a career moment you’re proud of?" },
+      { c:"Work", q:"What would your dream job look like?" },
+      { c:"Work", q:"Is there a skill you want to master?" },
+
+      // Interests
+      { c:"Interests", q:"What do you like to do in your free time?" },
+      { c:"Interests", q:"Do you play any instruments?" },
+      { c:"Interests", q:"Do you listen to podcasts or watch Youtubes?" },
+      { c:"Interests", q:"Do you like trying new restaurants?" },
+      { c:"Interests", q:"What type of music do you listen to?" },
+      { c:"Interests", q:"What’s a hobby you want to try?" },
+      { c:"Interests", q:"Do you enjoy cooking?" },
+      { c:"Interests", q:"Do you like hiking or fitness?" },
+      { c:"Interests", q:"What’s a skill everyone should have?" },
+
+      // Life
+      { c:"Life", q:"Do you have any pets?" },
+      { c:"Life", q:"How has your day been so far?" },
+      { c:"Life", q:"What did you want to be as a kid?" },
+      { c:"Life", q:"What’s your favorite way to unwind?" },
+      { c:"Life", q:"Do you prefer staying in or going out?" },
+      { c:"Life", q:"What’s something you want to do this year?" },
+      { c:"Life", q:"What’s the most spontaneous thing you’ve done?" },
+      { c:"Life", q:"What’s something small that makes you happy?" },
+
+      // Entertainment
+      { c:"Entertainment", q:"What’s your favorite movie?" },
+      { c:"Entertainment", q:"What’s your favorite TV show?" },
+      { c:"Entertainment", q:"Do you have a favorite podcast/Youtube?" },
+      { c:"Entertainment", q:"What kind of music are you into these days?" },
+      { c:"Entertainment", q:"What’s the last movie you watched?" },
+      { c:"Entertainment", q:"Do you enjoy documentaries?" },
+      { c:"Entertainment", q:"If you had one song on repeat forever, what would it be?" },
+
+      // Travel & Fun
+      { c:"Travel", q:"Do you like to travel?" },
+      { c:"Travel", q:"What’s the most interesting place you’ve been?" },
+      { c:"Travel", q:"Where would you like to go next?" },
+      { c:"Fun", q:"If you had a superpower, what would it be?" },
+      { c:"Fun", q:"If you could have dinner with anyone, who would it be?" },
+      { c:"Fun", q:"What’s your favorite holiday?" }
+    ];
+
+    function drawCards() {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 3);
+
+    const cardsDiv = document.getElementById("cards");
+    cardsDiv.innerHTML = "";
+    cardsDiv.classList.add("shuffle");
+
+    setTimeout(() => {
+      cardsDiv.classList.remove("shuffle");
+
+      selected.forEach((item, index) => {
+        setTimeout(() => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="category">${item.c}</div>
+            <div class="question">${item.q}</div>
+          `;
+          cardsDiv.appendChild(card);
+        }, index * 220); // 카드 간격
+      });
+    }, 300); // 셔플 시간
+  }
+</script>
+
+</body>
+</html>
