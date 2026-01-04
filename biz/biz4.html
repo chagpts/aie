@@ -172,6 +172,56 @@ not Stripe balance availability.
 Revenue follows economic substance, not cash movement.
 </div>
 
+
+
+<!-- Internal Discussion -->
+<h2>Internal Discussion: Revenue Timing</h2>
+
+<div class="highlight">
+<p><strong>Stripe Developer:</strong><br>
+From a Stripe perspective, we treat revenue as earned
+when funds move to <code>balance.available</code>.
+That’s when the money is real and withdrawable.</p>
+
+<p><strong>Accounting Director:</strong><br>
+I understand that from a system viewpoint,
+but availability of cash does not define revenue
+under revenue recognition standards.</p>
+
+<p><strong>Stripe Developer:</strong><br>
+So even if the funds are available in Stripe,
+you wouldn’t recognize revenue yet?</p>
+
+<p><strong>Accounting Director:</strong><br>
+Correct.
+Revenue is recognized when we obtain
+an enforceable right to consideration,
+which aligns with the creation and settlement of a
+<strong><code>charge</code></strong> —
+not with Stripe’s internal balance timing.</p>
+
+<p><strong>Stripe Developer:</strong><br>
+So <code>balance.available</code> answers
+“when can we withdraw cash,”
+but <code>charge.created</code> or <code>charge.succeeded</code>
+answers “when did we earn revenue”?</p>
+
+<p><strong>Accounting Director:</strong><br>
+Exactly.
+Stripe tells us how money moves.
+Accounting standards tell us when revenue exists.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+  
 <p class="note">
 Stripe documentation is generally structured around
 <strong>REST API references</strong>,
@@ -246,27 +296,7 @@ Accounting standards determine <em>when revenue exists</em>.
 </tbody>
 </table>
 
-<!-- Internal Discussion -->
-<h2>Internal Discussion: Revenue Timing</h2>
 
-<div class="highlight">
-<p><strong>Manager:</strong>  
-Why are we recognizing revenue based on <code>balance.available</code>?</p>
-
-<p><strong>Staff:</strong>  
-Because that’s when cash becomes available in Stripe.</p>
-
-<p><strong>Manager:</strong>  
-Cash availability does not define revenue under IFRS 15.</p>
-
-<p><strong>Staff:</strong>  
-Then what timing is more appropriate?</p>
-
-<p><strong>Manager:</strong>  
-Revenue aligns more closely with
-<code>charge.created</code> or <code>charge.succeeded</code>,
-when the right to consideration exists.</p>
-</div>
 
 <h2>One-Line Accounting Map</h2>
 
