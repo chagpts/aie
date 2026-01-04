@@ -211,16 +211,6 @@ Exactly.
 Stripe tells us how money moves.
 Accounting standards tell us when revenue exists.</p>
 </div>
-
-
-
-
-
-
-
-
-
-
   
 <p class="note">
 Stripe documentation is generally structured around
@@ -298,15 +288,50 @@ Accounting standards determine <em>when revenue exists</em>.
 
 
 
-<h2>One-Line Accounting Map</h2>
+<h2>One-Line Accounting Quiz</h2>
+
+<p>
+Based on the Stripe events below,
+how would you record the <strong>journal entries</strong>?
+</p>
 
 <div class="highlight">
 <pre>
-Revenue → charge.succeeded
-Fees    → balance_transaction (fee)
-Cash    → payout.paid
+charge.succeeded        → ?
+balance_transaction.fee → ?
+payout.paid             → ?
 </pre>
 </div>
+
+<p class="note">
+Assume a simple sale with no deferred revenue and a single performance obligation.
+</p>
+
+<h2>Sample Answer: Journal Entries</h2>
+
+<div class="highlight">
+<pre>
+(1) When charge.succeeded
+Dr. Accounts Receivable / Stripe Clearing
+    Cr. Revenue
+
+(2) When Stripe fee is recorded
+Dr. Payment Processing Fee Expense
+    Cr. Accounts Receivable / Stripe Clearing
+
+(3) When payout.paid
+Dr. Cash
+    Cr. Accounts Receivable / Stripe Clearing
+</pre>
+</div>
+
+<p class="note">
+Stripe-related balances are often tracked using
+a temporary <em>Stripe clearing account</em>
+to reconcile charges, fees, and payouts.
+</p>
+
+  
 
 <div class="back">
   <a href="../">← Back to Home</a>
