@@ -208,6 +208,103 @@ APIs are important because they define
 <strong>when it is created</strong>,
 and <strong>how reliably it can be audited</strong>.
 </p>
+ <h3>How Stripe Uses APIs</h3>
+
+<p>
+Stripe is an <strong>API-first payment platform</strong>.
+Every payment event you see —
+such as <code>charge.succeeded</code> or <code>payout.paid</code> —
+is created by an API interaction.
+</p>
+
+<ul>
+<li>Customer pays → API call creates a <code>PaymentIntent</code></li>
+<li>Payment is confirmed → API creates a <code>Charge</code></li>
+<li>Fees are calculated → API creates a <code>BalanceTransaction</code></li>
+<li>Funds are transferred → API creates a <code>Payout</code></li>
+</ul>
+
+<div class="highlight">
+<p>
+<strong>Key accounting point:</strong><br>
+APIs define <em>system events</em>.<br>
+Accounting standards define <em>economic reality</em>.
+</p>
+</div>
+
+<!-- API Example -->
+<h2>Stripe API Example: Creating a Payment</h2>
+
+<p>
+Below is a simplified example of how a payment is created
+using the <strong>Stripe Payment Intents API</strong>.
+</p>
+
+<div class="highlight">
+<pre>
+POST /v1/payment_intents
+
+{
+  "amount": 10000,
+  "currency": "usd",
+  "payment_method": "pm_card_visa",
+  "confirm": true
+}
+</pre>
+</div>
+
+<p>
+This API call tells Stripe:
+</p>
+
+<ul>
+<li>The customer is attempting to pay <strong>$100.00</strong></li>
+<li>The payment method is provided</li>
+<li>Stripe should immediately attempt confirmation</li>
+</ul>
+
+
+  <h3>From API Call to Accounting Entry</h3>
+
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What Happens</th>
+<th>Stripe Object</th>
+<th>Accounting Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>API creates payment attempt</td>
+<td>payment_intent.created</td>
+<td>No journal entry</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Payment approved</td>
+<td><strong>charge.succeeded</strong></td>
+<td>Revenue recognized</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Stripe records fee</td>
+<td>balance_transaction.fee</td>
+<td>Expense recognized</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Funds sent to bank</td>
+<td>payout.paid</td>
+<td>Cash movement only</td>
+</tr>
+</tbody>
+</table>
+
+
+
   
 
 <!-- Internal Discussion -->
