@@ -1,567 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Article</title>
+    <meta charset="UTF-8">
+    <title>Article - Stripe API & Accounting Audit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Quicksand&display=swap" rel="stylesheet">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
+                        url("../verse.png") no-repeat center center / cover;
+            padding: 60px 20px;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Quicksand&display=swap" rel="stylesheet">
+        .container {
+            max-width: 920px;
+            margin: auto;
+            background: rgba(255,255,255,0.95);
+            padding: 50px 60px;
+            border-radius: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
 
-<style>
-body {
-  font-family: 'Quicksand', sans-serif;
-  background:
-    linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
-    url("../verse.png") no-repeat center center / cover;
-  padding: 60px 20px;
-}
+        h1, h2, h3 { font-family: 'Baloo 2', cursive; }
+        h1 { margin-bottom: 28px; color: #2c3e50; }
+        h2 { margin-top: 50px; margin-bottom: 16px; color: #34495e; }
+        h3 { margin-top: 35px; margin-bottom: 12px; }
 
-.container {
-  max-width: 920px;
-  margin: auto;
-  background: rgba(255,255,255,0.95);
-  padding: 50px 60px;
-  border-radius: 28px;
-}
+        p { line-height: 1.8; margin-bottom: 18px; font-size: 15px; }
+        ul { margin-left: 20px; margin-bottom: 22px; }
+        li { margin-bottom: 8px; }
 
-h1, h2, h3 {
-  font-family: 'Baloo 2', cursive;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 28px 0;
+            font-size: 14px;
+        }
 
-h1 { margin-bottom: 28px; }
-h2 { margin-top: 50px; margin-bottom: 16px; }
-h3 { margin-top: 35px; margin-bottom: 12px; }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 14px;
+            vertical-align: top;
+        }
 
-p {
-  line-height: 1.8;
-  margin-bottom: 18px;
-  font-size: 15px;
-}
+        th { background: #f2f2f2; font-weight: 600; }
 
-ul {
-  margin-left: 20px;
-  margin-bottom: 22px;
-}
+        .note { font-size: 13px; color: #555; margin-top: 12px; border-left: 3px solid #3498db; padding-left: 10px; }
 
-li { margin-bottom: 8px; }
+        .highlight {
+            background: #f7f7f7;
+            padding: 22px 26px;
+            border-radius: 18px;
+            margin: 30px 0;
+            font-size: 14px;
+        }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 28px 0;
-  font-size: 14px;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px 14px;
-  vertical-align: top;
-}
-
-th {
-  background: #f2f2f2;
-  font-weight: 600;
-}
-
-.note {
-  font-size: 13px;
-  color: #555;
-  margin-top: 12px;
-}
-
-.highlight {
-  background: #f7f7f7;
-  padding: 22px 26px;
-  border-radius: 18px;
-  margin: 30px 0;
-  font-size: 14px;
-}
-
-.links, .questions {
-  background: #f7f7f7;
-  padding: 22px 26px;
-  border-radius: 18px;
-  margin: 28px 0;
-}
-
-.back {
-  text-align: center;
-  margin-top: 55px;
-}
-
-.back a {
-  display: inline-block;
-  padding: 12px 26px;
-  background: #333;
-  color: white;
-  border-radius: 30px;
-  text-decoration: none;
-  font-size: 14px;
-  margin: 6px;
-}
-
-footer {
-  text-align: center;
-  margin-top: 60px;
-  font-size: 13px;
-  background: rgba(255,255,255,0.75);
-  display: inline-block;
-  padding: 10px 18px;
-  border-radius: 20px;
-}
-
-@media (max-width: 600px) {
-  .container { padding: 30px 24px; }
-}
-
-  .link-card {
+        .link-card {
             background: white;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: transform 0.2s;
+            border: 1px solid #eee;
         }
+
         .link-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
+
         .category {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #3498db;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 8px;
+            letter-spacing: 1px;
         }
-        .link-title {
-            font-size: 1.25rem;
-            margin: 0 0 10px 0;
-        }
-        .link-title a {
-            color: #2c3e50;
+
+        .link-title { font-size: 1.2rem; margin: 0 0 10px 0; font-family: 'Quicksand', sans-serif; font-weight: bold; }
+        .link-title a { color: #2c3e50; text-decoration: none; }
+        
+        .description { color: #666; margin-bottom: 12px; font-size: 14px; }
+        .url { font-size: 0.85rem; color: #999; word-break: break-all; }
+
+        .back { text-align: center; margin-top: 55px; }
+        .back a {
+            display: inline-block;
+            padding: 12px 26px;
+            background: #333;
+            color: white;
+            border-radius: 30px;
             text-decoration: none;
+            font-size: 14px;
+            margin: 6px;
         }
-        .link-title a:hover {
-            color: #3498db;
+
+        footer {
+            text-align: center;
+            margin: 60px auto 20px;
+            font-size: 13px;
+            background: rgba(255,255,255,0.75);
+            display: block;
+            width: fit-content;
+            padding: 10px 18px;
+            border-radius: 20px;
         }
-        .description {
-            color: #666;
-            margin-bottom: 15px;
-        }
-        .url {
-            font-size: 0.9rem;
-            color: #999;
-            word-break: break-all;
-        }
-</style>
+    </style>
 </head>
 
 <body>
-<div class="container">
+    <div class="container">
+        <h1>Stripe Payment Intents API — Accounting & Audit Perspective</h1>
+        
+        <p class="note">
+            <strong>Disclaimer:</strong> This content is for educational purposes regarding English terminology and general API concepts. It does not constitute professional tax or legal advice.
+        </p>
 
-<h1>Stripe Payment Intents API  
-— Accounting-Focused Overview</h1>
-<p class="note">
-<strong>Disclaimer:</strong>
-This scenario and the related journal entries are
-<strong>hypothetical examples created for English learning and discussion purposes only</strong>.
-They do not represent actual accounting advice,
-official Stripe guidance, or real-world financial reporting.
-</p>
+        <h2>Why Auditors Care About API Events</h2>
+        <p>
+            In modern digital business, auditors no longer just look at bank statements. They look at <strong>API logs</strong>. 
+            The primary reason is the <strong>Cut-off Principle</strong>: ensuring revenue is recorded in the correct fiscal period.
+        </p>
 
-<p>
-This article explains Stripe payment events
-through the lens of <strong>IFRS 15 and US GAAP</strong>,
-with a focus on <strong>revenue recognition</strong>.
-</p>
+        <div class="highlight">
+            <h3>The Danger of "Available" vs. "Created"</h3>
+            <p>If a company recognizes revenue based on when funds become <code>available</code> in the Stripe balance rather than when the <code>charge.succeeded</code> event occurs, several issues arise:</p>
+            <ul>
+                <li><strong>Deferred Revenue Errors:</strong> Funds often take 2-7 days to move from 'Pending' to 'Available'. A sale made on Dec 30th might not be 'Available' until Jan 2nd. Recognizing it in January understates December's revenue.</li>
+                <li><strong>Inaccurate Receivables:</strong> At year-end, money sitting in Stripe (not yet paid out) should be recorded as a <em>Receivable</em> or <em>Other Cash Equivalent</em>. Ignoring API timestamps leads to a messy balance sheet.</li>
+                <li><strong>Audit Risk:</strong> Auditors will flag this as a "systemic timing error," potentially leading to a qualified audit opinion.</li>
+            </ul>
+        </div>
 
-<!-- IFRS 15 Five-Step Model -->
-<h2>IFRS 15: Five-Step Revenue Recognition Model</h2>
+        <h2>IFRS 15: Five-Step Revenue Recognition Model</h2>
+        <h3>Step 1: Identify the Contract</h3>
+        <p>A contract is established at order confirmation, creating enforceable rights and obligations.</p>
 
-<h3>Step 1: Identify the Contract</h3>
-<p>
-A contract exists when enforceable rights and obligations arise.
-This is usually established at order confirmation —
-not when a payment flow starts.
-</p>
+        <h3>Step 5: Recognize Revenue</h3>
+        <p>Revenue is recognized when control transfers. This typically aligns with <strong><code>charge.succeeded</code></strong>, the moment the customer's obligation is fulfilled and the merchant's right to payment is secured.</p>
 
-<h3>Step 2: Identify Performance Obligations</h3>
-<p>
-Each distinct good or service must be identified.
-Most Stripe use cases involve a single obligation
-satisfied at a point in time.
-</p>
+        <h2>Learning Resources & Tools</h2>
+        
+        <div class="link-card">
+            <div class="category">Documentation</div>
+            <h2 class="link-title"><a href="https://docs.stripe.com/api" target="_blank">Stripe API Reference</a></h2>
+            <p class="description">Official guide for payment integration, customer management, and subscription logic.</p>
+            <div class="url">https://docs.stripe.com/api</div>
+        </div>
 
-<h3>Step 3: Determine the Transaction Price</h3>
-<p>
-The transaction price is the amount expected to be received.
-Stripe fees and refunds affect presentation,
-not the transaction price itself.
-</p>
+        <div class="link-card">
+            <div class="category">YouTube Tutorial</div>
+            <h2 class="link-title"><a href="https://www.youtube.com/watch?v=GMXkC0Dk5Xg" target="_blank">Stripe Sales & Fees Calculation</a></h2>
+            <p class="description">Technical walkthrough on how to extract and reconcile sales and fee data from Stripe.</p>
+            <div class="url">https://www.youtube.com/watch?v=GMXkC0Dk5Xg</div>
+        </div>
 
-<h3>Step 4: Allocate the Transaction Price</h3>
-<p>
-If multiple obligations exist,
-the price is allocated based on relative stand-alone selling prices.
-</p>
+        <div class="link-card">
+            <div class="category">Tool</div>
+            <h2 class="link-title"><a href="https://coefficient.io/stripe/connect-stripe-to-excel" target="_blank">Stripe Data Connector</a></h2>
+            <p class="description">Connects Stripe API data directly to Excel/Google Sheets for financial reporting.</p>
+            <div class="url">https://coefficient.io/stripe/connect-stripe-to-excel</div>
+        </div>
 
-<h3>Step 5: Recognize Revenue</h3>
-<p>
-Revenue is recognized when control transfers to the customer.
-This typically aligns with
-<strong><code>charge.created</code> or <code>charge.succeeded</code></strong>,
-not Stripe balance availability.
-</p>
+        <div class="link-card">
+            <div class="category">YouTube Tutorial</div>
+            <h2 class="link-title"><a href="https://www.youtube.com/watch?v=lrilhJ-jpPc&list=PLgRxBCVPaZ_269IOayEny-_aq0LUQ2fGl" target="_blank">Building Apps with Public APIs</a></h2>
+            <p class="description">A Flutter development series focusing on integrating various public data APIs into mobile apps.</p>
+            <div class="url">https://www.youtube.com/watch?v=lrilhJ-jpPc</div>
+        </div>
 
-<div class="highlight">
-<strong>Key takeaway:</strong><br>
-Revenue follows economic substance, not cash movement.
-</div>
+        <div class="link-card">
+            <div class="category">Tool</div>
+            <h2 class="link-title"><a href="https://www.codepunker.com/tools/string-converter" target="_blank">String & Hash Utilities</a></h2>
+            <p class="description">Tools for converting strings and decoding hashes (MD5, SHA) used in API security.</p>
+            <div class="url">https://www.codepunker.com/tools/string-converter</div>
+        </div>
 
+        <h2>What Is an API? (The Accountant's Version)</h2>
+        <p>An <strong>API (Application Programming Interface)</strong> is the "digital paper trail" that records every financial event with a precise timestamp.</p>
 
+        <div class="highlight">
+            <p><strong>The API "Menu" Analogy:</strong><br>
+            • <strong>Request:</strong> Your system asks for a report.<br>
+            • <strong>Processing:</strong> Stripe's server verifies the data.<br>
+            • <strong>Response:</strong> You receive a JSON file containing the transaction details.</p>
+        </div>
 
-<h1>북마크</h1>
-    <div class="link-card">
-        <div class="category">Documentation</div>
-        <h2 class="link-title"><a href="https://docs.stripe.com/api" target="_blank">Stripe API Reference</a></h2>
-        <p class="description">글로벌 결제 솔루션 Stripe의 공식 API 문서입니다. 결제 연동, 고객 관리, 구독 서비스 구현을 위한 상세 가이드를 제공합니다.</p>
-        <div class="url">https://docs.stripe.com/api</div>
+        <h3>The Lifecycle of a Stripe Transaction</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Step</th>
+                    <th>Stripe API Event</th>
+                    <th>Accounting Reality</th>
+                    <th>Audit Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>payment_intent.created</td>
+                    <td>Intent to pay</td>
+                    <td>Non-financial event</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>charge.succeeded</strong></td>
+                    <td><strong>Revenue Earned</strong></td>
+                    <td>Recognize Revenue (Accrual)</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>balance.available</td>
+                    <td>Cash Ready</td>
+                    <td>Asset reclassification</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>payout.paid</td>
+                    <td>Cash in Bank</td>
+                    <td>Cash reconciliation</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Sample Journal Entries</h2>
+        <div class="highlight">
+            <pre>
+// 1. At charge.succeeded (API Trigger)
+Dr. Stripe Receivable $100
+    Cr. Revenue $100
+
+// 2. Stripe Fee Processing (API Trigger)
+Dr. Transaction Fee Expense $3
+    Cr. Stripe Receivable $3
+
+// 3. At payout.paid (Cash reaches Bank)
+Dr. Bank Account $97
+    Cr. Stripe Receivable $97</pre>
+        </div>
+
+        <div class="back">
+            <a href="../">← Back to Home</a>
+            <a href="../biz.html">← Back to Articles</a>
+        </div>
     </div>
-    <div class="link-card">
-        <div class="category">YouTube Tutorial</div>
-        <h2 class="link-title"><a href="https://www.youtube.com/watch?v=GMXkC0Dk5Xg" target="_blank">Stripe 매출 및 수수료 확인 방법</a></h2>
-        <p class="description">Stripe에서 판매 금액과 수수료 데이터를 추출하고 관리하는 방법을 설명하는 튜토리얼 영상입니다.</p>
-        <div class="url">https://www.youtube.com/watch?v=GMXkC0Dk5Xg</div>
-    </div>
-    <div class="link-card">
-        <div class="category">Tool</div>
-        <h2 class="link-title"><a href="https://www.codepunker.com/tools/string-converter" target="_blank">CodePunker String Converter</a></h2>
-        <p class="description">stripe invoice</p>
-        <div class="url">https://coefficient.io/stripe/connect-stripe-to-excel</div>
-    </div>
-    <div class="link-card">
-        <div class="category">Tool</div>
-        <h2 class="link-title"><a href="https://md5hashing.net/hash" target="_blank">MD5 Hashing - Hash Decoder</a></h2>
-        <p class="description">다양한 해시 알고리즘(MD5, SHA 등)을 통해 생성된 해시값을 텍스트로 복호화하거나 검색할 수 있는 도구입니다.</p>
-        <div class="url">https://md5hashing.net/hash</div>
-    </div>
 
-    <div class="link-card">
-        <div class="category">Tool</div>
-        <h2 class="link-title"><a href="https://www.codepunker.com/tools/string-converter" target="_blank">CodePunker String Converter</a></h2>
-        <p class="description">문자열을 다양한 형식(Binary, Hex, Base64 등)으로 변환해주는 온라인 유틸리티입니다.</p>
-        <div class="url">https://www.codepunker.com/tools/string-converter</div>
-    </div>
-    <div class="link-card">
-        <div class="category">YouTube Tutorial</div>
-        <h2 class="link-title"><a href="https://www.youtube.com/watch?v=lrilhJ-jpPc&list=PLgRxBCVPaZ_269IOayEny-_aq0LUQ2fGl" target="_blank">플러터 공공데이터 API 활용 앱 만들기</a></h2>
-        <p class="description">'개발하는남자' 채널의 강의로, Flutter를 사용하여 공공데이터 API를 연동하고 실제 앱을 제작하는 과정을 배울 수 있는 재생목록입니다.</p>
-        <div class="url">https://www.youtube.com/watch?v=lrilhJ-jpPc&list=...</div>
-    </div>
+    <footer>
+        © <span id="year"></span> Cha GPTs. All rights reserved.
+    </footer>
 
-  
-<!-- What is an API -->
-<h2>What Is an API? (In Plain English)</h2>
-
-<p>
-An <strong>API (Application Programming Interface)</strong> is a standardized way
-for one system to communicate with another system
-<strong>using predefined rules and data formats</strong>.
-</p>
-
-<p>
-In simple terms:
-</p>
-
-<div class="highlight">
-<p>
-<strong>An API is like a menu.</strong><br>
-• You (the application) choose an item (request)<br>
-• The kitchen (Stripe server) prepares it<br>
-• You receive the dish (response)<br>
-</p>
-</div>
-
-<p>
-For accounting and finance teams,
-APIs are important because they define
-<strong>where financial data comes from</strong>,
-<strong>when it is created</strong>,
-and <strong>how reliably it can be audited</strong>.
-</p>
- <h3>How Stripe Uses APIs</h3>
-
-<p>
-Stripe is an <strong>API-first payment platform</strong>.
-Every payment event you see —
-such as <code>charge.succeeded</code> or <code>payout.paid</code> —
-is created by an API interaction.
-</p>
-
-<ul>
-<li>Customer pays → API call creates a <code>PaymentIntent</code></li>
-<li>Payment is confirmed → API creates a <code>Charge</code></li>
-<li>Fees are calculated → API creates a <code>BalanceTransaction</code></li>
-<li>Funds are transferred → API creates a <code>Payout</code></li>
-</ul>
-
-<div class="highlight">
-<p>
-<strong>Key accounting point:</strong><br>
-APIs define <em>system events</em>.<br>
-Accounting standards define <em>economic reality</em>.
-</p>
-</div>
-
-<!-- API Example -->
-<h2>Stripe API Example: Creating a Payment</h2>
-
-<p>
-Below is a simplified example of how a payment is created
-using the <strong>Stripe Payment Intents API</strong>.
-</p>
-
-<div class="highlight">
-<pre>
-POST /v1/payment_intents
-
-{
-  "amount": 10000,
-  "currency": "usd",
-  "payment_method": "pm_card_visa",
-  "confirm": true
-}
-</pre>
-</div>
-
-<p>
-This API call tells Stripe:
-</p>
-
-<ul>
-<li>The customer is attempting to pay <strong>$100.00</strong></li>
-<li>The payment method is provided</li>
-<li>Stripe should immediately attempt confirmation</li>
-</ul>
-
-
-  <h3>From API Call to Accounting Entry</h3>
-
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>What Happens</th>
-<th>Stripe Object</th>
-<th>Accounting Impact</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>API creates payment attempt</td>
-<td>payment_intent.created</td>
-<td>No journal entry</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Payment approved</td>
-<td><strong>charge.succeeded</strong></td>
-<td>Revenue recognized</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Stripe records fee</td>
-<td>balance_transaction.fee</td>
-<td>Expense recognized</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Funds sent to bank</td>
-<td>payout.paid</td>
-<td>Cash movement only</td>
-</tr>
-</tbody>
-</table>
-
-
-
-  
-
-<!-- Internal Discussion -->
-<h2>Internal Discussion: Revenue Timing</h2>
-
-<div class="highlight">
-<p><strong>Stripe Developer:</strong><br>
-From a Stripe perspective, we treat revenue as earned
-when funds move to <code>balance.available</code>.
-That’s when the money is real and withdrawable.</p>
-
-<p><strong>Accounting Director:</strong><br>
-I understand that from a system viewpoint,
-but availability of cash does not define revenue
-under revenue recognition standards.</p>
-
-<p><strong>Stripe Developer:</strong><br>
-So even if the funds are available in Stripe,
-you wouldn’t recognize revenue yet?</p>
-
-<p><strong>Accounting Director:</strong><br>
-Correct.
-Revenue is recognized when we obtain
-an enforceable right to consideration,
-which aligns with the creation and settlement of a
-<strong><code>charge</code></strong> —
-not with Stripe’s internal balance timing.</p>
-
-<p><strong>Stripe Developer:</strong><br>
-So <code>balance.available</code> answers
-“when can we withdraw cash,”
-but <code>charge.created</code> or <code>charge.succeeded</code>
-answers “when did we earn revenue”?</p>
-
-<p><strong>Accounting Director:</strong><br>
-Exactly.
-Stripe tells us how money moves.
-Accounting standards tell us when revenue exists.</p>
-</div>
-  
-<p class="note">
-Stripe documentation is generally structured around
-<strong>REST API references</strong>,
-<strong>Payments guides</strong>,
-and <strong>Integration patterns</strong>.
-Payment Intents represent Stripe’s recommended approach
-for handling modern payment flows,
-including authentication, retries, and asynchronous confirmations.
-</p>
-
-<h3>Related Reading</h3>
-
-<div class="links">
-<ul>
-  <li>
-    <strong>PaymentIntents vs SetupIntents</strong><br>
-    Comparison guide explaining when to use PaymentIntents
-    versus SetupIntents in different payment scenarios.<br>
-    👉 <a href="https://docs.stripe.com/payments/payment-intents/migration/charges" target="_blank">
-    https://docs.stripe.com/payments/payment-intents/migration/charges
-    </a>
-  </li>
-</ul>
-</div>
-
-<div class="highlight">
-<p>
-<strong>Accounting reminder:</strong><br>
-Stripe documentation explains <em>how payments move</em>.<br>
-Accounting standards determine <em>when revenue exists</em>.
-</p>
-</div>
-
-  
-<!-- Stripe Objects -->
-<h2>Stripe API Objects Often Confused with Revenue</h2>
-
-<table>
-<thead>
-<tr>
-<th>Stripe Object</th>
-<th>Meaning</th>
-<th>Revenue?</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>payment_intent.succeeded</td>
-<td>Payment flow completed</td>
-<td>❌</td>
-<td>No settlement guarantee</td>
-</tr>
-<tr>
-<td>balance.available</td>
-<td>Withdrawable funds</td>
-<td>❌</td>
-<td>Cash timing only</td>
-</tr>
-<tr>
-<td><strong>charge.created</strong></td>
-<td>Legal charge established</td>
-<td>⚠️</td>
-<td>Authorization risk remains</td>
-</tr>
-<tr>
-<td><strong>charge.succeeded</strong></td>
-<td>Approved and settled</td>
-<td>✅</td>
-<td>Enforceable right exists</td>
-</tr>
-</tbody>
-</table>
-
-
-
-<h2>One-Line Accounting Quiz</h2>
-
-<p>
-Based on the Stripe events below,
-how would you record the <strong>journal entries</strong>?
-</p>
-
-<div class="highlight">
-<pre>
-charge.succeeded        → ?
-balance_transaction.fee → ?
-payout.paid             → ?
-</pre>
-</div>
-
-<p class="note">
-Assume a simple sale with no deferred revenue and a single performance obligation.
-</p>
-
-<h2>Sample Answer: Journal Entries</h2>
-
-<div class="highlight">
-<pre>
-(1) When charge.succeeded
-Dr. Accounts Receivable / Stripe Clearing
-    Cr. Revenue
-
-(2) When Stripe fee is recorded
-Dr. Payment Processing Fee Expense
-    Cr. Accounts Receivable / Stripe Clearing
-
-(3) When payout.paid
-Dr. Cash
-    Cr. Accounts Receivable / Stripe Clearing
-</pre>
-</div>
-
-<p class="note">
-Stripe-related balances are often tracked using
-a temporary <em>Stripe clearing account</em>
-to reconcile charges, fees, and payouts.
-</p>
-
-  
-
-<div class="back">
-  <a href="../">← Back to Home</a>
-  <a href="../biz.html">← Back to Articles</a>
-</div>
-
-</div>
-
-<footer>
-© <span id="year"></span> Cha GPTs. All rights reserved.
-</footer>
-
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
