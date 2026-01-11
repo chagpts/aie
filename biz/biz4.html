@@ -277,6 +277,90 @@ Dr. Bank Account $97
         </div>
     </div>
 
+        <!-- Stripe Objects -->
+        <h2>Stripe API Objects Often Confused with Revenue</h2>
+        
+        <table>
+        <thead>
+        <tr>
+        <th>Stripe Object</th>
+        <th>Meaning</th>
+        <th>Revenue?</th>
+        <th>Reason</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>payment_intent.succeeded</td>
+        <td>Payment flow completed</td>
+        <td>❌</td>
+        <td>No settlement guarantee</td>
+        </tr>
+        <tr>
+        <td>balance.available</td>
+        <td>Withdrawable funds</td>
+        <td>❌</td>
+        <td>Cash timing only</td>
+        </tr>
+        <tr>
+        <td><strong>charge.created</strong></td>
+        <td>Legal charge established</td>
+        <td>⚠️</td>
+        <td>Authorization risk remains</td>
+        </tr>
+        <tr>
+        <td><strong>charge.succeeded</strong></td>
+        <td>Approved and settled</td>
+        <td>✅</td>
+        <td>Enforceable right exists</td>
+        </tr>
+        </tbody>
+        </table>
+        
+        <!-- Internal Discussion -->
+        <h2>Internal Discussion: Revenue Timing</h2>
+        
+        <div class="highlight">
+        <p><strong>Manager:</strong>  
+        Why are we recognizing revenue based on <code>balance.available</code>?</p>
+        
+        <p><strong>Staff:</strong>  
+        Because that’s when cash becomes available in Stripe.</p>
+        
+        <p><strong>Manager:</strong>  
+        Cash availability does not define revenue under IFRS 15.</p>
+        
+        <p><strong>Staff:</strong>  
+        Then what timing is more appropriate?</p>
+        
+        <p><strong>Manager:</strong>  
+        Revenue aligns more closely with
+        <code>charge.created</code> or <code>charge.succeeded</code>,
+        when the right to consideration exists.</p>
+        </div>
+        
+        <h2>One-Line Accounting Map</h2>
+        
+        <div class="highlight">
+        <pre>
+        Revenue → charge.succeeded
+        Fees    → balance_transaction (fee)
+        Cash    → payout.paid
+        </pre>
+        </div>
+        
+        <div class="back">
+          <a href="../">← Back to Home</a>
+        </div>
+        
+        </div>
+
+
+
+
+
+
+    
     <footer>
         © <span id="year"></span> Cha GPTs. All rights reserved.
     </footer>
