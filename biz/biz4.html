@@ -114,6 +114,46 @@ footer {
 @media (max-width: 600px) {
   .container { padding: 30px 24px; }
 }
+
+  .link-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .link-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .category {
+            font-size: 0.85rem;
+            color: #3498db;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .link-title {
+            font-size: 1.25rem;
+            margin: 0 0 10px 0;
+        }
+        .link-title a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .link-title a:hover {
+            color: #3498db;
+        }
+        .description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .url {
+            font-size: 0.9rem;
+            color: #999;
+            word-break: break-all;
+        }
 </style>
 </head>
 
@@ -179,6 +219,48 @@ not Stripe balance availability.
 Revenue follows economic substance, not cash movement.
 </div>
 
+
+
+<h1>북마크</h1>
+    <div class="link-card">
+        <div class="category">Documentation</div>
+        <h2 class="link-title"><a href="https://docs.stripe.com/api" target="_blank">Stripe API Reference</a></h2>
+        <p class="description">글로벌 결제 솔루션 Stripe의 공식 API 문서입니다. 결제 연동, 고객 관리, 구독 서비스 구현을 위한 상세 가이드를 제공합니다.</p>
+        <div class="url">https://docs.stripe.com/api</div>
+    </div>
+    <div class="link-card">
+        <div class="category">YouTube Tutorial</div>
+        <h2 class="link-title"><a href="https://www.youtube.com/watch?v=GMXkC0Dk5Xg" target="_blank">Stripe 매출 및 수수료 확인 방법</a></h2>
+        <p class="description">Stripe에서 판매 금액과 수수료 데이터를 추출하고 관리하는 방법을 설명하는 튜토리얼 영상입니다.</p>
+        <div class="url">https://www.youtube.com/watch?v=GMXkC0Dk5Xg</div>
+    </div>
+    <div class="link-card">
+        <div class="category">Tool</div>
+        <h2 class="link-title"><a href="https://www.codepunker.com/tools/string-converter" target="_blank">CodePunker String Converter</a></h2>
+        <p class="description">stripe invoice</p>
+        <div class="url">https://coefficient.io/stripe/connect-stripe-to-excel</div>
+    </div>
+    <div class="link-card">
+        <div class="category">Tool</div>
+        <h2 class="link-title"><a href="https://md5hashing.net/hash" target="_blank">MD5 Hashing - Hash Decoder</a></h2>
+        <p class="description">다양한 해시 알고리즘(MD5, SHA 등)을 통해 생성된 해시값을 텍스트로 복호화하거나 검색할 수 있는 도구입니다.</p>
+        <div class="url">https://md5hashing.net/hash</div>
+    </div>
+
+    <div class="link-card">
+        <div class="category">Tool</div>
+        <h2 class="link-title"><a href="https://www.codepunker.com/tools/string-converter" target="_blank">CodePunker String Converter</a></h2>
+        <p class="description">문자열을 다양한 형식(Binary, Hex, Base64 등)으로 변환해주는 온라인 유틸리티입니다.</p>
+        <div class="url">https://www.codepunker.com/tools/string-converter</div>
+    </div>
+    <div class="link-card">
+        <div class="category">YouTube Tutorial</div>
+        <h2 class="link-title"><a href="https://www.youtube.com/watch?v=lrilhJ-jpPc&list=PLgRxBCVPaZ_269IOayEny-_aq0LUQ2fGl" target="_blank">플러터 공공데이터 API 활용 앱 만들기</a></h2>
+        <p class="description">'개발하는남자' 채널의 강의로, Flutter를 사용하여 공공데이터 API를 연동하고 실제 앱을 제작하는 과정을 배울 수 있는 재생목록입니다.</p>
+        <div class="url">https://www.youtube.com/watch?v=lrilhJ-jpPc&list=...</div>
+    </div>
+
+  
 <!-- What is an API -->
 <h2>What Is an API? (In Plain English)</h2>
 
