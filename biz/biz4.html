@@ -137,18 +137,44 @@
         </div>
 
         <h2>IFRS 15: Five-Step Revenue Recognition Model</h2>
-        <h3>Step 1: Identify the Contract</h3>
-        <p>A contract is established at order confirmation, creating enforceable rights and obligations.</p>
 
+        <h3>Step 1: Identify the Contract</h3>
+        <p>
+        A contract is established at order confirmation, creating enforceable rights and obligations between the customer and the merchant.
+        </p>
+        
+        <h3>Step 2: Identify the Performance Obligations</h3>
+        <p>
+        The merchant identifies distinct goods or services promised in the contract. 
+        In most online transactions, this is a single performance obligation: delivery of the product or service.
+        </p>
+        
+        <h3>Step 3: Determine the Transaction Price</h3>
+        <p>
+        The transaction price is the amount the merchant expects to be entitled to in exchange for fulfilling the performance obligation.
+        This is typically the charged amount, net of discounts, refunds, and variable consideration.
+        </p>
+        
+        <h3>Step 4: Allocate the Transaction Price</h3>
+        <p>
+        If multiple performance obligations exist, the transaction price is allocated based on relative standalone selling prices.
+        For simple transactions with one obligation, allocation is straightforward: 100% to that obligation.
+        </p>
+        
         <h3>Step 5: Recognize Revenue</h3>
-        <p>Revenue is recognized when control transfers. This typically aligns with <strong><code>charge.succeeded</code></strong>, the moment the customer's obligation is fulfilled and the merchant's right to payment is secured.</p>
+        <p>
+        Revenue is recognized when control of the good or service transfers to the customer.
+        This typically aligns with <strong><code>charge.succeeded</code></strong>, the point at which the customer’s obligation is fulfilled
+        and the merchant’s right to payment is secured.
+        </p>
+
 
         <h2>Learning Resources & Tools</h2>
         
         <div class="link-card">
             <div class="category">Documentation</div>
             <h2 class="link-title"><a href="https://docs.stripe.com/api" target="_blank">Stripe API Reference</a></h2>
-            <p class="description">Official guide for payment integration, customer management, and subscription logic.</p>
+            <p class="description">created & available: Official guide for payment integration, customer management, and subscription logic.</p>
             <div class="url">https://docs.stripe.com/api</div>
         </div>
 
@@ -162,14 +188,14 @@
         <div class="link-card">
             <div class="category">Tool</div>
             <h2 class="link-title"><a href="https://coefficient.io/stripe/connect-stripe-to-excel" target="_blank">Stripe Data Connector</a></h2>
-            <p class="description">Connects Stripe API data directly to Excel/Google Sheets for financial reporting.</p>
+            <p class="description">[Hash for numbering: completeness ] Connects Stripe API data directly to Excel/Google Sheets for financial reporting.</p>
             <div class="url">https://coefficient.io/stripe/connect-stripe-to-excel</div>
         </div>
 
         <div class="link-card">
             <div class="category">YouTube Tutorial</div>
             <h2 class="link-title"><a href="https://www.youtube.com/watch?v=lrilhJ-jpPc&list=PLgRxBCVPaZ_269IOayEny-_aq0LUQ2fGl" target="_blank">Building Apps with Public APIs</a></h2>
-            <p class="description">A Flutter development series focusing on integrating various public data APIs into mobile apps.</p>
+            <p class="description">공공데이터: A Flutter development series focusing on integrating various public data APIs into mobile apps.</p>
             <div class="url">https://www.youtube.com/watch?v=lrilhJ-jpPc</div>
         </div>
 
@@ -178,6 +204,7 @@
             <h2 class="link-title"><a href="https://www.codepunker.com/tools/string-converter" target="_blank">String & Hash Utilities</a></h2>
             <p class="description">Tools for converting strings and decoding hashes (MD5, SHA) used in API security.</p>
             <div class="url">https://www.codepunker.com/tools/string-converter</div>
+            <div class="url">https://md5hashing.net/hash</div>
         </div>
 
         <h2>What Is an API? (The Accountant's Version)</h2>
