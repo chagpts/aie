@@ -217,64 +217,7 @@
             • <strong>Response:</strong> You receive a JSON file containing the transaction details.</p>
         </div>
 
-        <h3>The Lifecycle of a Stripe Transaction</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Step</th>
-                    <th>Stripe API Event</th>
-                    <th>Accounting Reality</th>
-                    <th>Audit Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>payment_intent.created</td>
-                    <td>Intent to pay</td>
-                    <td>Non-financial event</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><strong>charge.succeeded</strong></td>
-                    <td><strong>Revenue Earned</strong></td>
-                    <td>Recognize Revenue (Accrual)</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>balance.available</td>
-                    <td>Cash Ready</td>
-                    <td>Asset reclassification</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>payout.paid</td>
-                    <td>Cash in Bank</td>
-                    <td>Cash reconciliation</td>
-                </tr>
-            </tbody>
-        </table>
 
-        <h2>Sample Journal Entries</h2>
-        <div class="highlight">
-            <pre>
-// 1. At charge.succeeded (API Trigger)
-Dr. Stripe Receivable $100
-    Cr. Revenue $100
-
-// 2. Stripe Fee Processing (API Trigger)
-Dr. Transaction Fee Expense $3
-    Cr. Stripe Receivable $3
-
-// 3. At payout.paid (Cash reaches Bank)
-Dr. Bank Account $97
-    Cr. Stripe Receivable $97</pre>
-        </div>
-
-        <div class="back">
-            <a href="../">← Back to Home</a>
-            <a href="../biz.html">← Back to Articles</a>
-        </div>
 
 
         <!-- Stripe Objects -->
@@ -339,18 +282,52 @@ Dr. Bank Account $97
         when the right to consideration exists.</p>
         </div>
         
-        <h2>One-Line Accounting Map</h2>
-        
+        <h2>One-Line Accounting Quiz</h2>
+
+            <p>
+            Based on the Stripe events below,
+            how would you record the <strong>journal entries</strong>?
+            </p>
+            
+            <div class="highlight">
+            <pre>
+            charge.succeeded        → ?
+            balance_transaction.fee → ?
+            payout.paid             → ?
+            </pre>
+            </div>
+            
+            <p class="note">
+            Assume a simple sale with no deferred revenue and a single performance obligation.
+            </p>
+
+        <h2>Sample Answer: Journal Entries</h2>
+
         <div class="highlight">
         <pre>
-        Revenue → charge.succeeded
-        Fees    → balance_transaction (fee)
-        Cash    → payout.paid
+        (1) When charge.succeeded
+        Dr. Accounts Receivable / Stripe Clearing
+            Cr. Revenue
+        
+        (2) When Stripe fee is recorded
+        Dr. Payment Processing Fee Expense
+            Cr. Accounts Receivable / Stripe Clearing
+        
+        (3) When payout.paid
+        Dr. Cash
+            Cr. Accounts Receivable / Stripe Clearing
         </pre>
         </div>
         
+        <p class="note">
+        Stripe-related balances are often tracked using
+        a temporary <em>Stripe clearing account</em>
+        to reconcile charges, fees, and payouts.
+        </p>
+
         <div class="back">
-          <a href="../">← Back to Home</a>
+            <a href="../">← Back to Home</a>
+            <a href="../biz.html">← Back to Articles</a>
         </div>
         
         </div>
