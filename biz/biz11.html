@@ -271,4 +271,178 @@ These risks are considered ITAC because:
 <!-- ===================== Added Section: Dialogue ===================== -->
 <h2>Practical Dialogue: Finance Lead vs. AI OCR Engineer</h2>
 
-<div cla
+<div class="dialogue">
+
+  <p class="msg">
+    <span class="role">Finance Lead (재무 팀장)</span>
+    <span class="tag">ITAC / 감사 관점</span><br>
+    지금 OCR로 인보이스를 자동전표로 넘기는 구조잖아요. 감사인이 제일 먼저 물어보는 게
+    “<strong>OCR 추출값이 ERP에 들어가기 전 어떤 애플리케이션 컨트롤이 있냐</strong>”예요.
+    특히 <strong>완전성(Completeness)</strong>, <strong>정확성(Accuracy)</strong>,
+    <strong>유효성(Validity)</strong>을 어떻게 보장하죠?
+  </p>
+
+  <p class="msg">
+    <span class="role">AI OCR Engineer (OCR 개발자)</span>
+    <span class="tag">Pipeline / Model</span><br>
+    현재 파이프라인은
+    <strong>Document Ingestion → Pre-processing(De-skew/De-noise) → Layout Analysis</strong>
+    (텍스트 블록/테이블/키-값 영역 분리) →
+    <strong>Text Recognition</strong> →
+    <strong>Key-Value Extraction</strong> →
+    <strong>Document Classification</strong> →
+    <strong>ERP Posting API</strong> 순서예요.
+    각 단계마다 <strong>confidence score</strong>를 뽑고, 필드 단위로
+    <strong>threshold</strong> 아래면 <strong>human-in-the-loop 큐</strong>로 라우팅합니다.
+  </p>
+
+  <p class="msg">
+    <span class="role">Finance Lead</span>
+    <span class="tag">통제 설계</span><br>
+    confidence threshold만으로는 부족하다고 보더라고요.
+    예를 들어 금액(Amount)이 숫자로는 맞는데 소수점이 밀리거나,
+    세액(VAT)과 공급가(넷) 매핑이 뒤집히는 케이스요.
+    <strong>비즈니스 룰 기반 validation</strong>은 어디서 돌고 있나요?
+  </p>
+
+  <p class="msg">
+    <span class="role">AI OCR Engineer</span>
+    <span class="tag">Validation / Rule Engine</span><br>
+    맞아요. 그래서 OCR score는 “인식 품질”이고,
+    회계적으로 맞는지는 별도 검증이 필요해요.
+    우리는 <strong>Rule Engine</strong>에서
+    <strong>필드 논리검증</strong>을 추가했습니다.
+    예를 들면:
+    <ul>
+      <li><strong>Amount sanity check</strong>: 음수 금액 허용 여부(크레딧 메모만 허용), 상한/하한 범위</li>
+      <li><strong>VAT cross-check</strong>: 공급가 × 세율 ≈ 세액(허용 오차/반올림 로직 포함)</li>
+      <li><strong>Currency validation</strong>: 통화코드(ISO) + 환율 테이블 매칭, 환산금액 재계산</li>
+      <li><strong>Date validation</strong>: 전기기간(Posting period) 밖이면 에러/승인필수</li>
+      <li><strong>Vendor master match</strong>: 벤더명 fuzzy match + 사업자번호(또는 Tax ID) exact match 우선</li>
+    </ul>
+    룰 통과 못 하면 <strong>ERP로 POST 못 하고</strong> 예외 처리로 빠져요.
+  </p>
+
+  <p class="msg">
+    <span class="role">Finance Lead</span>
+    <span class="tag">감사 Trail</span><br>
+    좋네요. 그럼 감사인이 요구하는 “증적”은요?
+    입력부터 전표 생성까지 <strong>audit trail</strong>이 있어야 해요.
+    <strong>원본 인보이스</strong>, <strong>OCR 결과 JSON</strong>,
+    <strong>수정 이력(누가/언제/무엇을)</strong>,
+    그리고 <strong>ERP에 실제로 POST된 payload</strong>까지요.
+    그리고 원본 문서가 중간에 바뀌면 큰 문제고요.
+  </p>
+
+  <p class="msg">
+    <span class="role">AI OCR Engineer</span>
+    <span class="tag">Immutability / Logging</span><br>
+    그 부분은 <strong>문서 무결성(Document Integrity)</strong> 통제로 잡았습니다.
+    업로드 시점에 원본 파일에 대해 <strong>SHA-256 해시</strong>를 생성하고,
+    OCR 결과/전표 payload/사용자 수정 로그에 동일한 <strong>Document ID</strong>로 연결해요.
+    저장은 <strong>WORM(Write Once Read Many) 옵션</strong> 또는
+    <strong>Object Storage 버전닝</strong>으로 “원본 불변성”을 유지합니다.
+    또 <strong>append-only event log</strong> 형태로
+    <strong>Field-level change history</strong>를 남기고,
+    사용자 수정은 <strong>전자서명(Approval)</strong> 워크플로우를 통과해야 ERP로 나가게 했어요.
+  </p>
+
+  <p class="msg">
+    <span class="role">Finance Lead</span>
+    <span class="tag">권한 / SoD</span><br>
+    권한도 중요해요. 업로드한 사람이 검증도 하고 승인도 하면
+    <strong>SoD(Segregation of Duties)</strong> 위반으로 보일 수 있어요.
+    그리고 개발자가 운영환경에서 룰을 바꾸거나 모델을 교체하면
+    <strong>Change Management</strong> 이슈죠. 그건 어떻게 관리해요?
+  </p>
+
+  <p class="msg">
+    <span class="role">AI OCR Engineer</span>
+    <span class="tag">IAM / Change Control</span><br>
+    권한은 <strong>RBAC(Role-Based Access Control)</strong>로 분리했고,
+    <strong>Uploader / Reviewer / Approver</strong> 역할을 분리해
+    동일인이 연속 단계 수행 못 하도록 정책을 걸었어요.
+    시스템 쪽은
+    <ul>
+      <li><strong>Model versioning</strong>: 모델/프롬프트(있다면)/룰셋을 버전으로 고정</li>
+      <li><strong>CI/CD 승인 게이트</strong>: PR 승인 + 배포 승인(승인권자 분리)</li>
+      <li><strong>Config as Code</strong>: 룰 변경도 Git으로 추적하고 릴리즈 노트 생성</li>
+      <li><strong>Prod 접근 통제</strong>: 개발자는 운영 DB 직접 수정 불가, break-glass는 로그/승인 필수</li>
+    </ul>
+    감사 대응용으로 <strong>변경 전/후 비교(diff)</strong>,
+    <strong>배포 이력</strong>, <strong>승인자</strong>까지 자동으로 남겨요.
+  </p>
+
+  <p class="msg">
+    <span class="role">Finance Lead</span>
+    <span class="tag">분류 리스크</span><br>
+    문서 분류(Document Classification)도 걱정이에요.
+    인보이스를 크레딧 메모로 분류하면 전표 부호가 뒤집히고,
+    CapEx/OpEx 분류가 틀리면 계정과목이 바뀌죠.
+    모델이 “그럴듯하게” 틀리면 더 위험해요.
+    <strong>오분류 통제</strong>는 어떻게 하죠?
+  </p>
+
+  <p class="msg">
+    <span class="role">AI OCR Engineer</span>
+    <span class="tag">Classifier / Quality Monitoring</span><br>
+    분류는 단일 모델에만 의존하지 않고
+    <strong>앙상블(Ensemble)</strong> + <strong>룰 기반 가드레일</strong>을 섞었어요.
+    예를 들어 “Credit Memo”는
+    <strong>negative total</strong>, “credit note”, “refund” 같은
+    <strong>keyword + 금액 패턴</strong>도 같이 봅니다.
+    또 분류 confidence가 낮거나 특정 고위험 벤더(고액/빈번)는
+    <strong>mandatory review</strong>로 보내요.
+    운영에서는 <strong>drift monitoring</strong> (벤더 템플릿 변경 등)으로
+    성능 저하를 탐지하고, 샘플링해 <strong>precision/recall</strong>을 주기적으로 리포팅합니다.
+  </p>
+
+  <p class="msg">
+    <span class="role">Finance Lead</span>
+    <span class="tag">감사 결론</span><br>
+    좋아요. 결국 감사에서는
+    <strong>1) 입력값 통제(Validation)</strong>,
+    <strong>2) 원본 무결성</strong>,
+    <strong>3) 권한 및 SoD</strong>,
+    <strong>4) 변경관리</strong>,
+    <strong>5) 예외 처리와 샘플링 모니터링</strong>
+    이 다섯 가지를 “시스템 통제”로 보여주면 ITAC으로 설득이 되겠네요.
+  </p>
+
+  <p class="subnote">
+    ✔ 위 대화에서 나온 키워드(예: confidence threshold, rule engine, SHA-256, WORM, RBAC, CI/CD 승인 게이트,
+    model versioning, drift monitoring)는 감사인의 ITAC 테스트 시 <strong>통제 설계(Design)</strong>와
+    <strong>운영 효과성(Operating Effectiveness)</strong> 설명에 자주 사용됩니다.
+  </p>
+
+</div>
+<!-- =================== End Added Section: Dialogue =================== -->
+
+<h2>Discussion Questions</h2>
+
+<div class="questions">
+<ul>
+  <li>Which input-stage risk is most critical in your company?</li>
+  <li>When should human review be mandatory?</li>
+  <li>Would you rely on OCR if confidence is high?</li>
+  <li>Can downstream controls fully compensate for bad input?</li>
+</ul>
+</div>
+
+<div class="back">
+  <a href="../">← Back to Home</a>
+  <a href="../biz.html">← Back to Articles</a>
+</div>
+
+</div>
+
+<footer>
+  © <span id="year"></span> Cha GPTs. All rights reserved.
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+  </html>
