@@ -275,130 +275,140 @@ These risks are considered ITAC because:
 
   <p class="msg">
     <span class="role">Finance Lead</span>
-    <span class="tag">Accounting / Audit</span><br>
-    We are using OCR to automatically read invoices and post entries into the ERP.
-    From an audit perspective, my main concern is simple:
-    <strong>how do we know the data going into the system is reliable?</strong>
-    If the input is wrong, everything after that can also be wrong.
+    <span class="tag">Audit Concern</span><br>
+    I want to shift the discussion a bit.
+    My biggest concern is not only OCR accuracy,
+    but <strong>the integrity of the original invoice itself</strong>.
+    Once a document is uploaded,
+    how can we be sure it was not replaced or altered later?
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">System Flow</span><br>
-    That makes sense. The OCR process has several steps.
-    First, the invoice is uploaded.
-    Then the system reads the text and tries to identify key fields like
-    vendor name, invoice date, amount, and tax.
-    For each field, the system also gives a <strong>confidence score</strong>,
-    meaning how sure it is that the value is correct.
+    <span class="tag">Current Setup</span><br>
+    At the moment, users upload invoice files into the system,
+    and the OCR process runs on that file.
+    However, I agree that if we do not control what happens
+    <em>after</em> upload, there is a risk.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
-    <span class="tag">Risk Awareness</span><br>
-    Confidence scores sound helpful, but from experience,
-    I know that numbers can still look “reasonable” and be wrong.
-    For example, the amount might be correct,
-    but the tax could be missing or calculated incorrectly.
-    Do we have any checks beyond just OCR confidence?
-  </p>
-
-  <p class="msg">
-    <span class="role">OCR Developer</span>
-    <span class="tag">Basic Validation</span><br>
-    Yes, we do.
-    Before sending data to the ERP, the system runs basic validation rules.
-    For example:
+    <span class="tag">Audit Reality</span><br>
+    Exactly.
+    Auditors often ask very direct questions, like:
     <ul>
-      <li>The total amount cannot be negative unless it is a credit note</li>
-      <li>Tax amount must roughly match the net amount and tax rate</li>
-      <li>The posting date must fall within an open accounting period</li>
-      <li>The vendor must exist in the vendor master</li>
+      <li>Can the uploaded document be replaced?</li>
+      <li>If it is changed, can we detect it?</li>
+      <li>How do we know the invoice reviewed is the same one that was posted?</li>
     </ul>
-    If any of these checks fail, the invoice is stopped for manual review.
-  </p>
-
-  <p class="msg">
-    <span class="role">Finance Lead</span>
-    <span class="tag">Audit Trail</span><br>
-    That’s good. Another thing auditors always ask for is evidence.
-    They want to see the <strong>original invoice</strong>,
-    what the OCR system extracted,
-    and whether anyone changed the data manually.
-    Can we track all of that?
+    If we cannot answer these clearly,
+    they see it as a serious control weakness.
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">Traceability</span><br>
-    Yes.
-    The original invoice file is stored and cannot be overwritten.
-    If someone edits an OCR result,
-    the system records who changed it, when, and what was changed.
-    The final data sent to the ERP is also saved,
-    so we can always trace a journal entry back to the source document.
+    <span class="tag">Risk Explanation</span><br>
+    That makes sense.
+    Without proper controls,
+    someone could theoretically upload one invoice,
+    let it pass approval,
+    and then replace the file with a different one later.
+    From the system’s point of view,
+    it would be hard to prove that a change happened.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
-    <span class="tag">Controls & Roles</span><br>
-    What about responsibilities?
-    From a controls point of view,
-    the person uploading an invoice should not be the same person approving it.
-    Otherwise, we may have segregation of duties issues.
+    <span class="tag">Key Audit Questions</span><br>
+    Right.
+    Auditors usually ask whether we use things like:
+    <strong>hash values or checksums</strong>,
+    whether the document becomes <strong>read-only after upload</strong>,
+    and whether there is any <strong>version control or change history</strong>.
+    If the answer is “no” to all three,
+    they get very uncomfortable.
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">User Roles</span><br>
-    We thought about that as well.
-    The system separates roles:
-    one user uploads invoices,
-    another reviews OCR results,
-    and a different user approves posting to the ERP.
-    The system does not allow one person to do all steps alone.
+    <span class="tag">Simple Controls</span><br>
+    To address that,
+    we can introduce some basic but effective controls.
+    First, when a document is uploaded,
+    the system can generate a <strong>digital fingerprint</strong>
+    (for example, a hash value).
+    If the file is changed later,
+    the fingerprint will no longer match.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
-    <span class="tag">Classification Risk</span><br>
-    I’m also concerned about document type.
-    If an invoice is mistakenly treated as a credit memo,
-    or if capital expenditure is treated as an expense,
-    that directly affects financial reporting.
-    How do we reduce that risk?
+    <span class="tag">Practical Impact</span><br>
+    That’s helpful,
+    because then we can show auditors
+    that the invoice used for posting
+    is exactly the same file that was originally uploaded.
+    What about preventing changes in the first place?
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">Practical Safeguards</span><br>
-    For high-risk cases, the system is more conservative.
-    If the document type is unclear,
-    or the amount is unusually high,
-    the invoice is automatically sent for manual review.
-    We also regularly review errors and adjust the rules
-    so the system improves over time.
+    <span class="tag">Prevention</span><br>
+    A common approach is to make the document
+    <strong>read-only after upload</strong>.
+    Users can still view and reference it,
+    but they cannot overwrite or replace the original file.
+    If a correction is needed,
+    a new document must be uploaded instead.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
-    <span class="tag">Conclusion</span><br>
-    That helps a lot.
+    <span class="tag">Version History</span><br>
+    And if a new document is uploaded,
+    auditors usually want to see a clear trail.
+    They ask questions like:
+    “Which version was used?”
+    “Why was it changed?”
+    “Who approved the change?”
+  </p>
+
+  <p class="msg">
+    <span class="role">OCR Developer</span>
+    <span class="tag">Change Tracking</span><br>
+    That’s where <strong>document versioning</strong> and
+    <strong>change logs</strong> come in.
+    Each upload becomes a new version,
+    and the system records who uploaded it and when.
+    The original file is never deleted,
+    and the posting record clearly points to
+    the specific version that was used.
+  </p>
+
+  <p class="msg">
+    <span class="role">Finance Lead</span>
+    <span class="tag">Audit Conclusion</span><br>
     From an audit perspective,
-    as long as we can show
-    <strong>input checks, clear approval steps, and a full audit trail</strong>,
-    auditors are more likely to accept OCR as a controlled process
-    rather than a black box.
+    that is exactly what we need.
+    If we can demonstrate that:
+    <ul>
+      <li>The original document cannot be silently changed</li>
+      <li>Any change creates a new version</li>
+      <li>All changes are logged and reviewable</li>
+    </ul>
+    then auditors are much more comfortable relying on the system.
   </p>
 
   <p class="subnote">
-    ✔ This type of conversation reflects how companies typically explain
-    OCR-related controls to auditors:
-    focusing less on complex technology
-    and more on practical risks, checks, and responsibilities.
+    ✔ In audit discussions, document integrity controls are often
+    more important than OCR accuracy itself.
+    Being able to prove that source documents are protected,
+    traceable, and unchanged is a key IT application control.
   </p>
 
 </div>
+
 
 <!-- =================== End Added Section: Dialogue =================== -->
 
