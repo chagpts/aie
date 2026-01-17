@@ -276,88 +276,118 @@ These risks are considered ITAC because:
   <p class="msg">
     <span class="role">Finance Lead</span>
     <span class="tag">Audit Concern</span><br>
-    I want to shift the discussion a bit.
-    My biggest concern is not only OCR accuracy,
-    but <strong>the integrity of the original invoice itself</strong>.
-    Once a document is uploaded,
-    how can we be sure it was not replaced or altered later?
+    I’d like to focus on a different risk today.
+    My main concern is <strong>document integrity</strong>.
+    Once an invoice is uploaded into the system,
+    how can we be sure that it is not replaced or modified later
+    without anyone noticing?
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">Current Setup</span><br>
-    At the moment, users upload invoice files into the system,
-    and the OCR process runs on that file.
-    However, I agree that if we do not control what happens
-    <em>after</em> upload, there is a risk.
+    <span class="tag">Current Risk</span><br>
+    That’s an important point.
+    If there are no controls after upload,
+    there is a risk that a document could be changed later
+    while still looking valid in the system.
+    From a system perspective,
+    it can be difficult to prove that the file was altered.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
     <span class="tag">Audit Reality</span><br>
     Exactly.
-    Auditors often ask very direct questions, like:
+    Auditors usually ask very straightforward questions, such as:
     <ul>
       <li>Can the uploaded document be replaced?</li>
-      <li>If it is changed, can we detect it?</li>
-      <li>How do we know the invoice reviewed is the same one that was posted?</li>
+      <li>If it is changed, can the system detect it?</li>
+      <li>How do we know the reviewed invoice is the same one that was posted?</li>
     </ul>
-    If we cannot answer these clearly,
-    they see it as a serious control weakness.
+    If we cannot clearly answer these,
+    they often see it as a control failure.
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">Risk Explanation</span><br>
-    That makes sense.
-    Without proper controls,
-    someone could theoretically upload one invoice,
-    let it pass approval,
-    and then replace the file with a different one later.
-    From the system’s point of view,
-    it would be hard to prove that a change happened.
+    <span class="tag">Basic Control Idea</span><br>
+    One common way to address this is to create a
+    <strong>digital fingerprint</strong> of the document at upload.
+    This fingerprint is called a <strong>hash</strong>.
+    If the document changes later,
+    the fingerprint also changes,
+    which makes the modification detectable.
+  </p>
+
+  <p class="msg">
+    <span class="role">OCR Developer</span>
+    <span class="tag">Simple Example</span><br>
+    Let me give a simple example using <strong>MD5</strong>.
+    When an invoice is uploaded,
+    the system calculates a hash like this:
+    <br><br>
+    <code>
+      Original file MD5: d41d8cd98f00b204e9800998ecf8427e
+    </code>
+    <br><br>
+    If even a small part of the file is changed,
+    the MD5 value will be completely different.
+    A mismatch clearly shows that
+    <strong>the document is no longer identical to the original upload</strong>.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
-    <span class="tag">Key Audit Questions</span><br>
-    Right.
-    Auditors usually ask whether we use things like:
-    <strong>hash values or checksums</strong>,
-    whether the document becomes <strong>read-only after upload</strong>,
-    and whether there is any <strong>version control or change history</strong>.
-    If the answer is “no” to all three,
-    they get very uncomfortable.
+    <span class="tag">Follow-up Question</span><br>
+    That example is easy to understand.
+    But auditors sometimes ask,
+    “Why are you using MD5?”
+    They often recommend <strong>SHA-256</strong> instead.
+    Why does that matter?
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">Simple Controls</span><br>
-    To address that,
-    we can introduce some basic but effective controls.
-    First, when a document is uploaded,
-    the system can generate a <strong>digital fingerprint</strong>
-    (for example, a hash value).
-    If the file is changed later,
-    the fingerprint will no longer match.
+    <span class="tag">Audit-Friendly Explanation</span><br>
+    MD5 is good for detecting basic or accidental changes,
+    but it is considered <strong>weak by today’s standards</strong>.
+    In rare cases,
+    two different files can end up with the same MD5 value.
+    Because of that risk,
+    auditors usually prefer <strong>SHA-256</strong>.
+  </p>
+
+  <p class="msg">
+    <span class="role">OCR Developer</span>
+    <span class="tag">Why SHA-256</span><br>
+    SHA-256 creates a much stronger digital fingerprint.
+    In practical terms, this means:
+    <ul>
+      <li>It is much harder for two different files to share the same hash</li>
+      <li>It provides stronger evidence that the document was not tampered with</li>
+      <li>Auditors are more comfortable relying on it as a control</li>
+    </ul>
+    So while both MD5 and SHA-256 can detect changes,
+    <strong>SHA-256 gives higher assurance</strong>
+    when document integrity is critical.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
-    <span class="tag">Practical Impact</span><br>
-    That’s helpful,
-    because then we can show auditors
-    that the invoice used for posting
-    is exactly the same file that was originally uploaded.
-    What about preventing changes in the first place?
-  </p>
-
-  <p class="msg">
-    <span class="role">OCR Developer</span>
     <span class="tag">Prevention</span><br>
+    Detection is important,
+    but auditors also ask about prevention.
+    Can the document be locked
+    so it cannot be changed after upload?
+  </p>
+
+  <p class="msg">
+    <span class="role">OCR Developer</span>
+    <span class="tag">Read-Only Control</span><br>
+    Yes.
     A common approach is to make the document
     <strong>read-only after upload</strong>.
-    Users can still view and reference it,
+    Users can view the invoice,
     but they cannot overwrite or replace the original file.
     If a correction is needed,
     a new document must be uploaded instead.
@@ -366,48 +396,49 @@ These risks are considered ITAC because:
   <p class="msg">
     <span class="role">Finance Lead</span>
     <span class="tag">Version History</span><br>
-    And if a new document is uploaded,
-    auditors usually want to see a clear trail.
+    And when a new document is uploaded,
+    auditors usually want to see a clear history.
     They ask questions like:
-    “Which version was used?”
-    “Why was it changed?”
-    “Who approved the change?”
+    “Which version was used for posting?”
+    “Who uploaded the new version?”
+    “Why was the change made?”
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
-    <span class="tag">Change Tracking</span><br>
-    That’s where <strong>document versioning</strong> and
-    <strong>change logs</strong> come in.
-    Each upload becomes a new version,
-    and the system records who uploaded it and when.
-    The original file is never deleted,
-    and the posting record clearly points to
-    the specific version that was used.
+    <span class="tag">Versioning & Logs</span><br>
+    That’s handled through <strong>document versioning</strong>
+    and <strong>change logs</strong>.
+    Each upload becomes a new version.
+    The system records who uploaded it and when,
+    and the original document is never deleted.
+    The accounting entry clearly links
+    to the specific document version that was used.
   </p>
 
   <p class="msg">
     <span class="role">Finance Lead</span>
     <span class="tag">Audit Conclusion</span><br>
     From an audit perspective,
-    that is exactly what we need.
-    If we can demonstrate that:
+    this is exactly what we need.
+    If we can show that:
     <ul>
-      <li>The original document cannot be silently changed</li>
+      <li>Documents cannot be silently changed</li>
       <li>Any change creates a new version</li>
-      <li>All changes are logged and reviewable</li>
+      <li>Hashes like SHA-256 are used to detect tampering</li>
     </ul>
-    then auditors are much more comfortable relying on the system.
+    auditors are much more comfortable
+    relying on the system as a controlled process.
   </p>
 
   <p class="subnote">
-    ✔ In audit discussions, document integrity controls are often
-    more important than OCR accuracy itself.
-    Being able to prove that source documents are protected,
-    traceable, and unchanged is a key IT application control.
+    ✔ In many audits, document integrity controls
+    (hashing, read-only access, version history, and change logs)
+    are considered more critical than OCR accuracy itself.
   </p>
 
 </div>
+
 
 
 <!-- =================== End Added Section: Dialogue =================== -->
