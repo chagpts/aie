@@ -111,6 +111,36 @@ footer {
   border-radius: 20px;
 }
 
+/* --- Added: Dialogue styling --- */
+.dialogue {
+  background: #f7f7f7;
+  padding: 28px 30px;
+  border-radius: 18px;
+  margin-top: 25px;
+}
+.dialogue .role {
+  font-weight: 700;
+}
+.dialogue .tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: #e9e9e9;
+  margin-left: 8px;
+  color: #444;
+}
+.dialogue .msg {
+  margin-bottom: 14px;
+}
+.dialogue .subnote {
+  font-size: 13px;
+  color: #555;
+  margin-top: 12px;
+  line-height: 1.65;
+}
+/* --- End Added --- */
+
 @media (max-width: 600px) {
   .container {
     padding: 30px 24px;
@@ -238,32 +268,7 @@ These risks are considered ITAC because:
   <li>Financial accuracy depends on system logic</li>
 </ul>
 
-<h2>Discussion Questions</h2>
+<!-- ===================== Added Section: Dialogue ===================== -->
+<h2>Practical Dialogue: Finance Lead vs. AI OCR Engineer</h2>
 
-<div class="questions">
-<ul>
-  <li>Which input-stage risk is most critical in your company?</li>
-  <li>When should human review be mandatory?</li>
-  <li>Would you rely on OCR if confidence is high?</li>
-  <li>Can downstream controls fully compensate for bad input?</li>
-</ul>
-</div>
-
-<div class="back">
-  <a href="../">← Back to Home</a>
-  <a href="../biz.html">← Back to Articles</a>
-</div>
-
-</div>
-
-<footer>
-  © <span id="year"></span> Cha GPTs. All rights reserved.
-</footer>
-
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-
-</body>
-  </html>
-
+<div cla
