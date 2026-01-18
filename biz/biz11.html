@@ -141,6 +141,48 @@ footer {
 }
 /* --- End Added --- */
 
+/* --- Added: Small badges/mini cards for summary --- */
+.badges {
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  background: #f0f0f0;
+  margin: 0 8px 8px 0;
+  color: #444;
+}
+.mini-card {
+  background: #f7f7f7;
+  padding: 18px 20px;
+  border-radius: 18px;
+  margin: 18px 0;
+  border: 1px solid #eee;
+}
+.mini-card h3 {
+  font-family: 'Baloo 2', cursive;
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+.mini-card p {
+  margin: 0 0 10px;
+}
+.mini-card ul {
+  margin: 0 0 0 18px;
+}
+.callout {
+  background: #fff7e6;
+  border: 1px solid #ffe2a8;
+  padding: 18px 20px;
+  border-radius: 18px;
+  margin: 18px 0;
+  font-size: 14px;
+}
+/* --- End Added --- */
+
 @media (max-width: 600px) {
   .container {
     padding: 30px 24px;
@@ -169,6 +211,187 @@ While this improves efficiency, it also introduces
 <strong>new IT Application Control (ITAC) risks</strong>,
 especially at the input stage.
 </p>
+
+<!-- ===================== Added Section: AI OCR Overview ===================== -->
+<h2>What Is AI OCR?</h2>
+
+<p>
+<strong>AI OCR</strong> is “intelligent document reading.”
+Traditional OCR mainly converts images into text.
+AI OCR goes further by using ML/AI to:
+</p>
+
+<ul>
+  <li><strong>Understand layouts</strong> (tables, headers, line items, stamps, signatures)</li>
+  <li><strong>Classify documents</strong> (invoice vs. receipt vs. credit memo)</li>
+  <li><strong>Extract key fields</strong> (vendor, invoice date, total, VAT, currency, bank info)</li>
+  <li><strong>Validate and normalize</strong> (date formats, currency symbols, tax formats)</li>
+</ul>
+
+<div class="badges">
+  <span class="badge">Text recognition</span>
+  <span class="badge">Layout understanding</span>
+  <span class="badge">Field extraction</span>
+  <span class="badge">Document classification</span>
+  <span class="badge">Confidence scoring</span>
+</div>
+
+<h2>Types of OCR (and Where AI OCR Fits)</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Type</th>
+  <th>How It Works</th>
+  <th>Strengths</th>
+  <th>Limitations</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td><strong>Rule-based OCR</strong><br>(Template OCR)</td>
+  <td>Fixed coordinates or templates per vendor/layout</td>
+  <td>High accuracy for known formats, predictable</td>
+  <td>Breaks when layout changes; scaling vendors is hard</td>
+</tr>
+
+<tr>
+  <td><strong>Traditional OCR</strong><br>(Generic text OCR)</td>
+  <td>Converts image → text (no deep understanding)</td>
+  <td>Good for clean scans & simple text blocks</td>
+  <td>Weak on tables/line items; needs heavy post-processing</td>
+</tr>
+
+<tr>
+  <td><strong>AI OCR</strong><br>(Document AI / IDP)</td>
+  <td>ML models detect structure + extract fields + classify docs</td>
+  <td>Works across many formats, handles tables better</td>
+  <td>Still error-prone; requires monitoring & governance</td>
+</tr>
+
+<tr>
+  <td><strong>Hybrid OCR</strong></td>
+  <td>AI OCR + rules (validation, vendor-specific tweaks)</td>
+  <td>Best practical approach in accounting</td>
+  <td>Needs control design; rules can drift over time</td>
+</tr>
+
+</tbody>
+</table>
+
+<h2>Key Characteristics of AI OCR</h2>
+
+<div class="mini-card">
+  <h3>1) Confidence Score (But It’s Not a Guarantee)</h3>
+  <p>
+    AI OCR typically outputs a <strong>confidence score</strong> for each field (e.g., total amount 0.92).
+    This helps automation—but confidence can be misleading when the model is “confidently wrong.”
+  </p>
+  <ul>
+    <li>Best practice: threshold rules (e.g., &lt;0.90 → mandatory review)</li>
+    <li>Different thresholds per field: amount/VAT should be stricter than description</li>
+  </ul>
+</div>
+
+<div class="mini-card">
+  <h3>2) Layout & Table Understanding</h3>
+  <p>
+    AI OCR can parse tables and line items, but errors increase when:
+  </p>
+  <ul>
+    <li>Scans are skewed/blurred</li>
+    <li>Tables have merged cells or inconsistent columns</li>
+    <li>Multiple totals exist (subtotal / total / amount due)</li>
+  </ul>
+</div>
+
+<div class="mini-card">
+  <h3>3) Continuous Drift</h3>
+  <p>
+    Vendors change invoice formats, and the model’s performance can drift.
+    Governance matters: periodic sampling, exception tracking, and vendor-format monitoring.
+  </p>
+</div>
+
+<h2>Typical Problems & Risks with AI OCR</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Problem</th>
+  <th>What It Looks Like</th>
+  <th>Accounting Risk</th>
+  <th>Control Ideas</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td><strong>“Confidently wrong” extraction</strong></td>
+  <td>Total picked from subtotal; VAT read incorrectly</td>
+  <td>Misstatement in expenses/tax</td>
+  <td>3-way checks (line total = sum), VAT logic rules, field thresholds</td>
+</tr>
+
+<tr>
+  <td><strong>Duplicate / missing invoices</strong></td>
+  <td>Same invoice uploaded twice; missing page</td>
+  <td>Overstatement or incomplete liabilities</td>
+  <td>Duplicate detection (vendor+invoice# + amount), page count checks</td>
+</tr>
+
+<tr>
+  <td><strong>Document misclassification</strong></td>
+  <td>Credit memo treated as invoice</td>
+  <td>Wrong direction of posting</td>
+  <td>Doc-type validation, negative amount logic, human review triggers</td>
+</tr>
+
+<tr>
+  <td><strong>Poor scan quality</strong></td>
+  <td>Blur, shadow, skew, handwritten notes</td>
+  <td>Higher error rate and manual rework</td>
+  <td>Upload quality gate; reject/flag low-quality scans</td>
+</tr>
+
+<tr>
+  <td><strong>Security / privacy leakage</strong></td>
+  <td>PII/bank info sent to external OCR service</td>
+  <td>Compliance breach</td>
+  <td>Data masking, vendor due diligence, encryption, retention policies</td>
+</tr>
+
+<tr>
+  <td><strong>Model updates change behavior</strong></td>
+  <td>Accuracy drops after vendor release</td>
+  <td>Control failure if unmonitored</td>
+  <td>Change management, regression testing, monitoring dashboards</td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="callout">
+  <strong>Audit reality:</strong> “AI” does not reduce control needs.  
+  It often <strong>increases</strong> the need for evidence: thresholds, sampling, exception logs, and change management.
+</div>
+
+<h2>Why Use AI OCR in Accounting (Benefits)</h2>
+
+<ul>
+  <li><strong>Speed:</strong> faster invoice processing and shorter month-end close</li>
+  <li><strong>Cost:</strong> reduces repetitive data entry workload</li>
+  <li><strong>Standardization:</strong> normalizes vendor formats into consistent ERP fields</li>
+  <li><strong>Better controls (when designed well):</strong> automated validations can be stronger than manual keying</li>
+  <li><strong>Visibility:</strong> dashboards for exceptions, aging, and processing bottlenecks</li>
+</ul>
+
+<p class="note">
+✔ The best results usually come from a <strong>hybrid approach</strong>:
+AI OCR + validation rules + human review for low-confidence/high-risk items.
+</p>
+<!-- =================== End Added Section: AI OCR Overview =================== -->
 
 <h2>Why the Input Stage Matters</h2>
 
@@ -438,9 +661,6 @@ These risks are considered ITAC because:
   </p>
 
 </div>
-
-
-
 <!-- =================== End Added Section: Dialogue =================== -->
 
 <h2>Discussion Questions</h2>
@@ -451,6 +671,8 @@ These risks are considered ITAC because:
   <li>When should human review be mandatory?</li>
   <li>Would you rely on OCR if confidence is high?</li>
   <li>Can downstream controls fully compensate for bad input?</li>
+  <li>Which fields should have the strictest validation rules (total, VAT, vendor, bank info)?</li>
+  <li>How do you monitor model drift and vendor invoice format changes over time?</li>
 </ul>
 </div>
 
@@ -470,4 +692,4 @@ document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
-  </html>
+</html>
