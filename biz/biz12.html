@@ -207,7 +207,7 @@ code {
 
 <div class="container">
 
-<h1>IT Change Management Discussion (Config Mgmt + Migration + “식통감기”)</h1>
+<h1>IT Change Management Discussion</h1>
 
 <p>
 [Discussion material in English. Based on GTAG “IT Change Management (3rd Edition)”.]
@@ -236,7 +236,7 @@ to production systems — while minimizing disruption and controlling risk.
 </div>
 
 <!-- ===================== Configuration Management ===================== -->
-<h2>Configuration Management (형상관리) — Discussion Points</h2>
+<h2>Configuration Management — Discussion Points</h2>
 
 <p>
 Even though the GTAG explicitly says it does not deep-dive into configuration management,
@@ -287,8 +287,44 @@ knowing <strong>what exists</strong>, <strong>what changed</strong>, <strong>who
 </table>
 
 <p class="note">
-In GTAG terms, change management should be “repeatable, measurable, and auditable,”
-and unauthorized changes should ideally be “zero.” (GTAG: process goals & maturity characteristics)
+What Does (DEV → TEST → UAT → PROD) Mean?
+
+(DEV → TEST → UAT → PROD) represents the standard environment flow that IT changes
+(such as code, configuration, or patches) follow before reaching the live system.
+It describes the migration path used to protect the production environment.
+
+DEV (Development Environment)
+This is where developers create and modify code.
+Changes are frequent, and the environment is used for building and initial experimentation.
+
+TEST (Testing Environment)
+This environment is used to verify that the change works technically as expected.
+It includes unit testing, integration testing, and regression testing to identify defects.
+
+UAT (User Acceptance Testing Environment)
+This is where business users (not IT) confirm that the change meets business requirements.
+For example, the finance team verifies that accounting postings or reports behave correctly.
+
+PROD (Production Environment)
+This is the live environment used by real users and customers.
+Any error here can directly impact operations, financial reporting, or security.
+
+Why Is This Flow Important?
+
+The main purpose of separating environments is to protect the production system.
+Allowing changes to move directly from DEV to PROD without testing or approval
+significantly increases the risk of system outages, data integrity issues, and security incidents.
+
+Each step in the flow acts as a control gate, ensuring that:
+
+the change is properly tested,
+
+the change is formally approved,
+
+and the change is deployed by authorized personnel only.
+
+This environment separation is a core concept in change management and migration controls,
+and it directly supports segregation of duties and auditability.
 </p>
 
 <!-- ===================== Migration ===================== -->
