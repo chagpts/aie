@@ -181,6 +181,20 @@ footer {
   font-size: 14px;
 }
 
+/* --- Code block styling --- */
+pre {
+  background: #111;
+  color: #f5f5f5;
+  padding: 14px 16px;
+  border-radius: 14px;
+  overflow-x: auto;
+  font-size: 13px;
+  margin: 14px 0 18px;
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 @media (max-width: 600px) {
   .container {
     padding: 30px 24px;
@@ -448,118 +462,98 @@ These risks are considered ITAC because:
   <li>Financial accuracy depends on system logic</li>
 </ul>
 
-<!-- ===================== Updated Dialogue: Fraud Scenario ===================== -->
-<h2>Practical Dialogue: Fake Invoice Swap Detected in ITAC Audit</h2>
+<!-- ===================== Updated Dialogue: Hash Change Detection ===================== -->
+<h2>Practical Dialogue: Hash Mismatch Between Interim and Year-End Audit</h2>
 
 <div class="dialogue">
 
   <p class="msg">
     <span class="role">IT Auditor</span>
-    <span class="tag">Walkthrough</span><br>
-    For our ITAC walkthrough, we’re tracing one transaction
-    from <strong>invoice upload</strong> to <strong>ERP posting</strong>.
-    Please show the original document that supports this journal entry.
+    <span class="tag">Interim Audit</span><br>
+    During our interim audit, we sampled this transaction and captured the supporting invoice’s
+    <strong>SHA-256 hash</strong> from your document repository.
+    We’ll re-check the same document during year-end to confirm integrity.
   </p>
 
   <p class="msg">
     <span class="role">Finance Team Lead</span>
     <span class="tag">Year-end Pressure</span><br>
-    Sure… just a moment.
-    We needed to <strong>hit the year-end numbers</strong>,
-    so we updated the invoice file to match the final amount.
-    It’s the same vendor anyway.
+    Understood.
+    Year-end is busy, but the invoice should be in the system.
   </p>
 
   <p class="msg">
     <span class="role">IT Auditor</span>
-    <span class="tag">Red Flag</span><br>
-    When you say “updated,” do you mean the uploaded invoice was
-    <strong>replaced</strong> after posting?
-    Our concern is whether the system allows a user to swap
-    documents without detection.
+    <span class="tag">Year-end Audit</span><br>
+    We pulled the same invoice again for year-end testing.
+    The document ID is the same, but the <strong>hash value has changed</strong>.
+    That means the binary file is not identical to what existed at interim.
   </p>
 
   <p class="msg">
     <span class="role">Finance Team Lead</span>
-    <span class="tag">Admission</span><br>
-    The system lets us overwrite the file.
-    At year-end we replaced a few invoices with
-    <strong>revised versions</strong> so revenue looked higher.
-    We didn’t think it would matter because OCR still reads it.
+    <span class="tag">Deflection</span><br>
+    Could that be just a system update or OCR re-processing?
   </p>
 
   <p class="msg">
     <span class="role">IT Auditor</span>
-    <span class="tag">ITAC Failure</span><br>
-    That’s exactly the issue.
-    If an uploaded source document can be replaced,
-    the system has a <strong>document integrity gap</strong>.
-    In ITAC terms:
-    <ul>
-      <li>the “evidence” can be changed after the fact</li>
-      <li>the system cannot prove what was originally uploaded</li>
-      <li>the posting may no longer be supported by the original document</li>
-    </ul>
-    Even if OCR works perfectly,
-    this is a control failure because the system allows tampering.
+    <span class="tag">Technical Proof</span><br>
+    OCR re-processing doesn’t change the original file hash.
+    A cryptographic hash changes only if the file content changes.
+    Here’s what we observed:
   </p>
+
+  <pre><code>Interim audit (SHA-256):  3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b
+Year-end audit (SHA-256): 91b65d1b2c3c7f1c2a6a0fbe0b8b6b9c9c0c8f0b9a7a6b5c4d3e2f1a0b9c8d7e</code></pre>
 
   <p class="msg">
     <span class="role">IT Auditor</span>
-    <span class="tag">How It Was Detected</span><br>
-    We compared the document timestamp and file metadata,
-    and we also noticed the invoice number format changed.
-    In a stronger system,
-    we would verify the file using a stored <strong>SHA-256 hash</strong>
-    recorded at upload time.
-    If the hash doesn’t match, the document was altered.
+    <span class="tag">Control Failure</span><br>
+    Same document record, different hash = the document was
+    <strong>replaced or modified</strong>.
+    This indicates a <strong>document integrity control gap</strong>:
+    the system allows changes without preserving the original
+    or creating a new version with traceable approval.
   </p>
 
   <p class="msg">
     <span class="role">OCR Developer</span>
     <span class="tag">Root Cause</span><br>
-    Today we don’t store hashes or enforce versioning.
-    The file can be overwritten in the same document ID,
-    so the ERP entry still “links” to the record
-    even if the binary file changed.
-  </p>
-
-  <p class="msg">
-    <span class="role">IT Auditor</span>
-    <span class="tag">Required Controls</span><br>
-    To remediate, we typically expect:
-    <ul>
-      <li><strong>Read-only storage</strong> after upload (no overwrite)</li>
-      <li><strong>Document versioning</strong> (new upload = new version, old preserved)</li>
-      <li><strong>Immutable audit logs</strong> (who/when/what changed)</li>
-      <li><strong>Cryptographic hash</strong> (e.g., SHA-256) stored at upload</li>
-      <li><strong>Linking</strong> of ERP postings to a specific document version + hash</li>
-    </ul>
-    Without these, the system cannot provide reliable audit evidence.
+    Currently, users can overwrite the stored file in the repository.
+    We store metadata, but we don’t enforce
+    <strong>immutable storage</strong> or <strong>versioning</strong>,
+    and the ERP link points to the document ID, not a specific version+hash.
   </p>
 
   <p class="msg">
     <span class="role">Finance Team Lead</span>
-    <span class="tag">Impact</span><br>
-    So even though the invoice “exists” in the system,
-    because it can be swapped, auditors treat it as unreliable evidence?
+    <span class="tag">Admission</span><br>
+    At year-end, we swapped in a “cleaner” invoice version
+    to make revenue look stronger.
+    We didn’t realize you had a way to prove the file changed.
   </p>
 
   <p class="msg">
     <span class="role">IT Auditor</span>
-    <span class="tag">Conclusion</span><br>
-    Correct.
-    If documents can be replaced to influence year-end reporting,
-    it becomes both an <strong>ITAC deficiency</strong> and a potential
-    <strong>financial reporting fraud risk</strong>.
-    The control objective is simple:
-    <strong>the invoice used for posting must be provably the same file that was originally uploaded</strong>.
+    <span class="tag">Audit Conclusion</span><br>
+    This will be raised as an <strong>ITAC deficiency</strong>.
+    Because the change appears intentional and affects financial reporting,
+    it may also be assessed as a <strong>fraud risk</strong> and escalated.
+    The remediation expectation is:
+    <ul>
+      <li><strong>Hash stored at upload</strong> (SHA-256) + monitored for changes</li>
+      <li><strong>Read-only / immutable storage</strong> for originals</li>
+      <li><strong>Versioning</strong>: any “replacement” becomes a new version</li>
+      <li><strong>Audit logs</strong>: who/when/why + approval evidence</li>
+      <li><strong>ERP linkage</strong>: posting ties to a specific document version + hash</li>
+    </ul>
   </p>
 
   <p class="subnote">
-    ✔ Key audit message: OCR accuracy is not enough.  
-    If the system allows <strong>silent invoice replacement</strong>, the “evidence” is not trustworthy,
-    and auditors will likely flag it as a control deficiency (and escalate if it appears intentional).
+    ✔ 핵심: 감사인은 “문서가 있다/없다”가 아니라,  
+    <strong>중간감사 때 확인한 그 문서가 기말에도 동일한 파일인지</strong>를 본다.  
+    동일 ID인데 hash가 바뀌면, 사실상 “증빙이 바뀐 것”으로 판단된다.
   </p>
 
 </div>
