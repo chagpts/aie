@@ -200,6 +200,75 @@ code {
     padding: 30px 24px;
   }
 }
+
+  /* --- DEV → TEST → UAT → PROD explainer --- */
+.env-explainer{
+  background:#f7f7f7;
+  border:1px solid #eee;
+  border-radius:18px;
+  padding:22px 24px;
+  margin:20px 0 10px;
+}
+
+.env-explainer h3{
+  font-family:'Baloo 2', cursive;
+  margin:0 0 10px;
+  font-size:18px;
+}
+
+.env-explainer p{
+  margin:0 0 12px;
+  font-size:14px;
+  line-height:1.75;
+}
+
+.env-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:12px;
+  margin:14px 0 14px;
+}
+
+.env-card{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:16px;
+  padding:14px 14px;
+}
+
+.env-card .env-title{
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.env-card .env-sub{
+  font-size:13px;
+  color:#666;
+  margin-bottom:6px;
+}
+
+.env-card ul{
+  margin:0 0 0 18px;
+  font-size:13px;
+}
+
+.env-keypoints{
+  background:#fff;
+  border:1px dashed #ddd;
+  border-radius:16px;
+  padding:14px 16px;
+  margin-top:12px;
+  font-size:14px;
+}
+
+.env-keypoints ul{
+  margin:8px 0 0 18px;
+}
+
+@media (max-width: 600px){
+  .env-grid{ grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 
@@ -286,46 +355,69 @@ knowing <strong>what exists</strong>, <strong>what changed</strong>, <strong>who
 </tbody>
 </table>
 
-<p class="note">
-What Does (DEV → TEST → UAT → PROD) Mean?
+<div class="env-explainer">
+  <h3>What Does (DEV → TEST → UAT → PROD) Mean?</h3>
 
-(DEV → TEST → UAT → PROD) represents the standard environment flow that IT changes
-(such as code, configuration, or patches) follow before reaching the live system.
-It describes the migration path used to protect the production environment.
+  <p>
+    <strong>DEV → TEST → UAT → PROD</strong> is the standard environment flow that IT changes
+    (code, configuration, patches) follow before reaching the live system.  
+    It’s the migration path used to <strong>protect the production environment</strong>.
+  </p>
 
-DEV (Development Environment)
-This is where developers create and modify code.
-Changes are frequent, and the environment is used for building and initial experimentation.
+  <div class="env-grid">
+    <div class="env-card">
+      <div class="env-title">DEV (Development)</div>
+      <div class="env-sub">Where changes are created</div>
+      <ul>
+        <li>Build and modify code/config</li>
+        <li>Frequent changes & experimentation</li>
+      </ul>
+    </div>
 
-TEST (Testing Environment)
-This environment is used to verify that the change works technically as expected.
-It includes unit testing, integration testing, and regression testing to identify defects.
+    <div class="env-card">
+      <div class="env-title">TEST (Testing)</div>
+      <div class="env-sub">Where changes are validated technically</div>
+      <ul>
+        <li>Unit / integration / regression tests</li>
+        <li>Defects found before business testing</li>
+      </ul>
+    </div>
 
-UAT (User Acceptance Testing Environment)
-This is where business users (not IT) confirm that the change meets business requirements.
-For example, the finance team verifies that accounting postings or reports behave correctly.
+    <div class="env-card">
+      <div class="env-title">UAT (User Acceptance Testing)</div>
+      <div class="env-sub">Where business confirms requirements</div>
+      <ul>
+        <li>Business users validate outcomes</li>
+        <li>Example: finance checks postings/reports</li>
+      </ul>
+    </div>
 
-PROD (Production Environment)
-This is the live environment used by real users and customers.
-Any error here can directly impact operations, financial reporting, or security.
+    <div class="env-card">
+      <div class="env-title">PROD (Production)</div>
+      <div class="env-sub">The real, live environment</div>
+      <ul>
+        <li>Used by real users/customers</li>
+        <li>Errors impact operations & reporting</li>
+      </ul>
+    </div>
+  </div>
 
-Why Is This Flow Important?
-
-The main purpose of separating environments is to protect the production system.
-Allowing changes to move directly from DEV to PROD without testing or approval
-significantly increases the risk of system outages, data integrity issues, and security incidents.
-
-Each step in the flow acts as a control gate, ensuring that:
-
-the change is properly tested,
-
-the change is formally approved,
-
-and the change is deployed by authorized personnel only.
-
-This environment separation is a core concept in change management and migration controls,
-and it directly supports segregation of duties and auditability.
-</p>
+  <div class="env-keypoints">
+    <strong>Why is this flow important?</strong>
+    <ul>
+      <li>Separating environments reduces outage, integrity, and security risk.</li>
+      <li>Skipping gates (DEV → PROD) increases the chance of untested/unauthorized changes.</li>
+      <li>Each step acts as a control gate to ensure:
+        <ul>
+          <li>the change is properly tested</li>
+          <li>the change is formally approved</li>
+          <li>the change is deployed by authorized personnel only</li>
+        </ul>
+      </li>
+      <li>This supports segregation of duties (SoD) and auditability.</li>
+    </ul>
+  </div>
+</div>
 
 <!-- ===================== Migration ===================== -->
 <h2>Migration (DEV → TEST → UAT → PROD) — Discussion Points</h2>
