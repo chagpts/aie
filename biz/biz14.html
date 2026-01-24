@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Merchant Cash Advance (MCA) – Accounting & Audit Study</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Quicksand&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Quicksand', sans-serif;
+  background:
+    linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
+    url("../verse.png") no-repeat center center / cover;
+  padding: 60px 20px;
+}
+.container {
+  max-width: 820px;
+  margin: auto;
+  background: rgba(255,255,255,0.95);
+  padding: 50px 60px;
+  border-radius: 28px;
+}
+h1, h2, h3 {
+  font-family: 'Baloo 2', cursive;
+}
+h1 { margin-bottom: 30px; }
+h2 { margin-top: 45px; margin-bottom: 15px; }
+p { line-height: 1.75; margin-bottom: 18px; font-size: 15px; }
+ul { margin-left: 20px; margin-bottom: 20px; }
+li { margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 14px; }
+th, td { border: 1px solid #ddd; padding: 12px 14px; vertical-align: top; }
+th { background: #f2f2f2; font-weight: 600; }
+.note { font-size: 13px; color: #555; margin-top: 10px; }
+.dialogue { background: #f7f7f7; padding: 28px 30px; border-radius: 18px; margin-top: 25px; }
+.dialogue .role { font-weight: 700; }
+.dialogue .tag { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 12px; background: #e9e9e9; margin-left: 8px; color: #444; }
+.dialogue .msg { margin-bottom: 14px; }
+.callout { background: #fff7e6; border: 1px solid #ffe2a8; padding: 18px 20px; border-radius: 18px; margin: 18px 0; font-size: 14px; }
+.badge { display:inline-block; font-size:12px; padding:6px 10px; border-radius:14px; background:#f0f0f0; margin:0 8px 8px 0; }
+.back { text-align:center; margin-top:50px; }
+.back a { display:inline-block; padding:12px 26px; background:#333; color:#fff; border-radius:30px; text-decoration:none; font-size:14px; margin:6px; }
+footer { text-align:center; margin-top:60px; font-size:13px; background:rgba(255,255,255,0.75); display:inline-block; padding:10px 18px; border-radius:20px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Merchant Cash Advance (MCA): Accounting & Audit Perspective</h1>
+
+<p><strong>Reference:</strong><br>
+<a href="https://stripe.com/resources/more/merchant-cash-advance" target="_blank">
+https://stripe.com/resources/more/merchant-cash-advance
+</a></p>
+
+<p>
+This study material explains <strong>Merchant Cash Advance (MCA)</strong> using Stripe as an example,
+from a <strong>US GAAP accounting</strong>, <strong>audit</strong>, and <strong>regulatory</strong> perspective.
+</p>
+
+<div class="badges">
+  <span class="badge">MCA</span>
+  <span class="badge">US GAAP</span>
+  <span class="badge">Audit Judgment</span>
+  <span class="badge">Financing vs Loan</span>
+</div>
+
+<h2>1. What Is a Merchant Cash Advance?</h2>
+
+<p>
+A <strong>Merchant Cash Advance (MCA)</strong> is not structured as a traditional loan.
+Instead, the provider purchases a portion of the merchant’s <strong>future receivables</strong>
+in exchange for an upfront cash payment.
+</p>
+
+<ul>
+  <li>No stated interest rate</li>
+  <li>Repayment is tied to <strong>actual sales volume</strong></li>
+  <li>No fixed maturity date</li>
+  <li>Payments fluctuate with daily sales</li>
+</ul>
+
+<h2>2. MCA vs. Factoring vs. Loan</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Item</th>
+  <th>MCA</th>
+  <th>Factoring</th>
+  <th>Loan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Underlying asset</td>
+  <td>Future sales</td>
+  <td>Existing A/R</td>
+  <td>Cash</td>
+</tr>
+<tr>
+  <td>Repayment certainty</td>
+  <td>Variable</td>
+  <td>Mostly fixed</td>
+  <td>Fixed</td>
+</tr>
+<tr>
+  <td>Interest rate</td>
+  <td>None stated</td>
+  <td>Discount implied</td>
+  <td>Explicit</td>
+</tr>
+<tr>
+  <td>GAAP classification</td>
+  <td>Financing arrangement</td>
+  <td>Sale or secured borrowing</td>
+  <td>Debt</td>
+</tr>
+</tbody>
+</table>
+
+<h2>3. Is MCA a Loan Under US GAAP?</h2>
+
+<p>
+Under <strong>US GAAP</strong>, MCA is generally <strong>not accounted for as a loan</strong>
+if the substance of the arrangement shows:
+</p>
+
+<ul>
+  <li>No unconditional repayment obligation</li>
+  <li>Provider assumes variability risk of sales</li>
+  <li>No fixed or determinable maturity</li>
+</ul>
+
+<div class="callout">
+<strong>Key audit concept:</strong><br>
+Auditors assess <em>substance over form</em>. Even without the word “loan,”
+if repayment is effectively fixed, MCA may be recharacterized as debt.
+</div>
+
+<h2>4. Debate Topic: Loan Regulation vs. MCA</h2>
+
+<div class="dialogue">
+  <p class="msg">
+    <span class="role">Finance Team Lead</span>
+    <span class="tag">Position</span><br>
+    Loans are heavily regulated by usury laws and lending regulations.
+    MCA is a purchase of receivables, not a loan, so those regulations shouldn’t apply.
+  </p>
+
+  <p class="msg">
+    <span class="role">Auditor</span>
+    <span class="tag">Challenge</span><br>
+    Regulation aside, we care about accounting substance.
+    If repayment is practically guaranteed, it may still be debt under GAAP.
+  </p>
+
+  <p class="msg">
+    <span class="role">Conclusion</span>
+    <span class="tag">GAAP View</span><br>
+    Regulatory classification and accounting classification are different.
+    MCA may avoid loan regulation, yet still fail debt classification—or vice versa.
+  </p>
+</div>
+
+<h2>5. Does MCA Create Financing Cost?</h2>
+
+<p>
+Yes. Even without stated interest, MCA embeds an <strong>implied financing cost</strong>.
+The difference between cash received and total expected remittance represents the cost of capital.
+</p>
+
+<ul>
+  <li>No interest expense line item</li>
+  <li>Recognized through effective yield over collections</li>
+  <li>Presented as financing cash flow impact</li>
+</ul>
+
+<h2>6. Stripe MCA – Example Paydown Table</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Transaction</th>
+  <th>Sales Amount ($)</th>
+  <th>Paydown %</th>
+  <th>MCA Paydown ($)</th>
+  <th>Remaining Balance ($)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Initial Payout</td>
+  <td>–</td>
+  <td>–</td>
+  <td>–</td>
+  <td>100,000</td>
+</tr>
+<tr>
+  <td>Sale #1</td>
+  <td>500</td>
+  <td>20%</td>
+  <td>100</td>
+  <td>99,900</td>
+</tr>
+<tr>
+  <td>Sale #2</td>
+  <td>5,000</td>
+  <td>20%</td>
+  <td>1,000</td>
+  <td>98,900</td>
+</tr>
+<tr>
+  <td>Sale #3</td>
+  <td>3,000</td>
+  <td>20%</td>
+  <td>600</td>
+  <td>98,300</td>
+</tr>
+</tbody>
+</table>
+
+<p class="note">
+Paydowns fluctuate with sales volume. There is no fixed repayment schedule.
+</p>
+
+<h2>7. Audit Takeaways</h2>
+
+<ul>
+  <li>MCA ≠ automatically non-debt</li>
+  <li>Substance over legal form</li>
+  <li>Variable repayment is critical</li>
+  <li>Financing cost exists even without interest</li>
+</ul>
+
+<div class="back">
+  <a href="../">← Back to Home</a>
+  <a href="../biz.html">← Back to Articles</a>
+</div>
+
+</div>
+
+<footer>
+  © <span id="year"></span> Cha GPTs. All rights reserved.
+</footer>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
