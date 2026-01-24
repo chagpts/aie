@@ -1,291 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Merchant Cash Advance (MCA) – Accounting & Audit Study</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT&Accounting English Conversation Meetup</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
+    * { box-sizing: border-box; }
+
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-      margin: 40px;
+      margin: 0;
+      padding: 24px 14px;
+      min-height: 100vh;
+      font-family: 'Quicksand', Arial, sans-serif;
+      text-align: center;
+      background:
+        linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
+        url("verse.png") no-repeat center / cover;
+    }
+
+    /* HERO */
+    .hero {
+      background: rgba(255,255,255,0.96);
+      padding: 24px 18px;
+      border-radius: 22px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 24px;
+      margin: 0 0 6px;
       color: #222;
     }
-    h1, h2, h3 {
-      color: #1a1a1a;
+
+    .hero p {
+      font-size: 14px;
+      color: #444;
+      margin: 0;
+      line-height: 1.5;
     }
-    h1 {
-      border-bottom: 3px solid #444;
-      padding-bottom: 10px;
+
+    /* MEETUP INFO */
+    .meetup-info {
+      max-width: 520px;
+      margin: 0 auto 32px;
+      background: rgba(255,255,255,0.96);
+      padding: 20px;
+      border-radius: 22px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
     }
-    h2 {
-      margin-top: 40px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
+
+    .meetup-info h2,
+    .meetup-info h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 20px;
+      margin-bottom: 14px;
+      color: #111;
     }
-    table {
-      border-collapse: collapse;
+
+    .info-item {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .info-item span {
+      font-weight: 600;
+      color: #222;
+    }
+
+    .info-item small {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #777;
+    }
+
+    .info-item a {
+      color: #6b3df4;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* BUTTON */
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
-      margin: 20px 0;
+      padding: 14px 0;
+      margin-top: 14px;
+      background: #333;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 28px;
+      font-size: 15px;
     }
-    table, th, td {
-      border: 1px solid #999;
-    }
-    th, td {
-      padding: 10px;
+
+    .button:active { background: #111; }
+
+    /* MEETUP ORDER */
+    .order-step {
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
       text-align: left;
     }
-    th {
-      background-color: #f2f2f2;
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #222;
     }
-    .note {
-      background: #f9f9f9;
-      border-left: 4px solid #666;
-      padding: 12px;
-      margin: 20px 0;
+
+    .order-step p {
+      font-size: 13px;
+      color: #555;
+      margin: 0;
+      line-height: 1.5;
     }
-    details {
-      margin-top: 10px;
-      background: #fafafa;
-      padding: 10px;
-      border: 1px dashed #bbb;
+
+    /* TOPICS */
+    .topics {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      max-width: 420px;
+      margin: 0 auto;
     }
-    summary {
-      cursor: pointer;
-      font-weight: bold;
+
+    .topic {
+      background: rgba(255,255,255,0.96);
+      padding: 22px 20px;
+      border-radius: 22px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+
+    .topic h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: #111;
+    }
+
+    .topic p {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 36px;
+      font-size: 12px;
+      color: #555;
+      background: rgba(255,255,255,0.85);
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 18px;
+    }
+
+    /* DESKTOP */
+    @media (min-width: 768px) {
+      body { padding: 50px 20px; }
+      h1 { font-size: 40px; }
+      .hero { padding: 36px 50px; margin-bottom: 60px; }
+      .meetup-info { margin-bottom: 60px; }
+      .topics {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1100px;
+        gap: 30px;
+      }
+      .button {
+        width: auto;
+        padding: 14px 30px;
+        display: inline-block;
+      }
+    }
+
+    /* CHANNEL TALK HINT */
+    .channel-hint {
+      position: fixed;
+      bottom: 160px;
+      right: 70px;
+      background: rgba(0,0,0,0.78);
+      color: #fff;
+      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      z-index: 9998;
+      line-height: 1.4;
+      text-align: left;
+      animation: floatHint 3s ease-in-out infinite;
+    }
+
+    .channel-hint::after {
+      content: "";
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent transparent transparent rgba(0,0,0,0.78);
+    }
+
+    @keyframes floatHint {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
+
 <body>
 
-<h1>Merchant Cash Advance (MCA) – Accounting & Audit Study</h1>
+  <div class="hero">
+    <h1>IT&Accounting English Conversation Meetup</h1>
+    <p>IT  in English.</p>
+    <p>느긋하게 일요일 아침에 영어로 대화해요~</p>
+  </div>
 
-<p>
-  Reference:  
-  <a href="https://stripe.com/resources/more/merchant-cash-advance" target="_blank">
-    https://stripe.com/resources/more/merchant-cash-advance
-  </a>
-</p>
+  <div class="meetup-info">
+    <h2>How to Join</h2>
 
-<!-- 1 -->
-<h2>1. What Is a Merchant Cash Advance (MCA)?</h2>
+    <div class="info-item"><span>Day:</span> Every Saturday</div>
+    <div class="info-item"><span>Time:</span> 10:50 AM – 1:00 PM</div>
 
-<p>
-An MCA is a financing arrangement where a merchant receives cash upfront in exchange
-for a percentage of future card sales. Repayment occurs only when sales occur.
-</p>
+    <div class="info-item">
+      <span>Place:</span>
+      <a href="https://naver.me/xCB73ejP" target="_blank">
+          (View Map)
+      </a>
+      <small>(Location may vary each week)</small>
+    </div>
 
-<ul>
-  <li>No fixed repayment schedule</li>
-  <li>No stated interest rate</li>
-  <li>Repayment fluctuates with sales volume</li>
-</ul>
+    <div class="info-item">
+      <span>Level:</span> Open to all (모두 환영이에요!)
+    </div>
 
-<p><strong>Discussion Question:</strong><br>
-Is MCA closer to a loan or a sale of future receivables?</p>
+    <div class="info-item">
+      <span>Participation fee:</span> just one drink ☕
+    </div>
 
-<details>
-  <summary>Model Answer (Key Bullets)</summary>
-  <ul>
-    <li>Focus on economic substance, not label</li>
-    <li>No unconditional obligation to repay</li>
-    <li>Cash provider bears sales risk</li>
-  </ul>
-</details>
+    <a class="button" href="" target="_blank">
+      Chat With Us in English (참가하기)
+    </a>
+  </div>
 
-<!-- 2 -->
-<h2>2. MCA vs Factoring</h2>
+  <div class="meetup-info">
+    <h3>How the Meetup Usually Goes</h3>
 
-<table>
-  <tr>
-    <th>Item</th>
-    <th>MCA</th>
-    <th>Factoring</th>
-  </tr>
-  <tr>
-    <td>Underlying Asset</td>
-    <td>Future sales</td>
-    <td>Existing receivables</td>
-  </tr>
-  <tr>
-    <td>Repayment</td>
-    <td>Variable</td>
-    <td>Fixed</td>
-  </tr>
-  <tr>
-    <td>Risk Transfer</td>
-    <td>Shared / Provider bears risk</td>
-    <td>Often with recourse</td>
-  </tr>
-</table>
+    <div class="order-step">
+      <div class="step-title">Ice Breaking</div>
+      <p>Light ice-breaking(easy-going questions)</p>
+    </div>
 
-<p><strong>Discussion Question:</strong><br>
-Why is MCA generally not treated as factoring under US GAAP?</p>
+    <div class="order-step">
+      <div class="step-title">Card Discussion</div>
+      <p>Small group chat with cards</p>
+    </div>
 
-<details>
-  <summary>Model Answer (Key Bullets)</summary>
-  <ul>
-    <li>No identified receivable at inception</li>
-    <li>Sales have not yet occurred</li>
-    <li>Cash flows are contingent</li>
-  </ul>
-</details>
+    <div class="order-step">
+      <div class="step-title">IT&Accounting Discussion</div>
+      <p>Casual discussion from a short article</p>
+    </div>
+  </div>
 
-<!-- 3 -->
-<h2>3. Is MCA a Loan under US GAAP?</h2>
+  <div class="topics">
+    <div class="topic">
+      <h2>Ice Breaking</h2>
+      <p>Open questions for warming up conversations.</p>
+      <a class="button" href="iceBreaking.html">Let’s Break the Ice</a>
+    </div>
 
-<p>
-Under US GAAP, MCA is generally <strong>not classified as a loan</strong> if there is no
-unconditional obligation to repay cash.
-</p>
+    <div class="topic">
+      <h2>Card Discussion</h2>
+      <p>We choose a card and talk about the question together.</p>
+      <a class="button" href="card.html">Start Card Picking</a>
+    </div>
 
-<div class="note">
-Key test: Is the merchant required to repay the advance even if sales stop?
-</div>
+    <div class="topic">
+      <h2>IT&Accounting Discussion</h2>
+      <p>Short readings and reflections.</p>
+      <a class="button" href="biz.html">Read Article</a>
+    </div>
 
-<p><strong>Discussion Question:</strong><br>
-What feature most clearly distinguishes MCA from debt?</p>
+    <div class="topic">
+      <h2>(TBD) Mind Discussion</h2>
+      <p>We choose a card and talk about the question together.</p>
+      <a class="button" href="mindSelect.html">Start Card Picking</a>
+    </div>
 
-<details>
-  <summary>Model Answer (Key Bullets)</summary>
-  <ul>
-    <li>No fixed maturity</li>
-    <li>No minimum payment</li>
-    <li>Repayment tied solely to sales</li>
-  </ul>
-</details>
+    <div class="topic">
+      <h2>(TBD) Business English</h2>
+      <p>Short business readings and discussions.</p>
+      <a class="button" href="biz.html">Read Article</a>
+    </div>
+  </div>
 
-<!-- 4 -->
-<h2>4. Regulatory Debate: Loan vs MCA (3-Minute Conversation)</h2>
+  <footer>© 2025 Cha GPTs</footer>
 
-<p><strong>Finance Lead:</strong><br>
-“We’re planning to use an MCA. Since it’s not a loan, we don’t need to show debt, right?”</p>
+  <div class="channel-hint">
+    💬 Question or 질문있으면?<br>
+    Click the chat icon 클릭해주세요! →
+  </div>
 
-<p><strong>Auditor:</strong><br>
-“Labels don’t matter. We need to assess whether, in substance, this creates a debt obligation.”</p>
+  <!-- Channel.io -->
+  <script>
+    (function(){
+      var w=window;
+      if(w.ChannelIO){ return; }
+      var ch=function(){ch.c(arguments);};
+      ch.q=[];
+      ch.c=function(args){ch.q.push(args);};
+      w.ChannelIO=ch;
+      function l(){
+        if(w.ChannelIOInitialized){return;}
+        w.ChannelIOInitialized=true;
+        var s=document.createElement("script");
+        s.type="text/javascript";
+        s.async=true;
+        s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";
+        var x=document.getElementsByTagName("script")[0];
+        x.parentNode.insertBefore(s,x);
+      }
+      if(document.readyState==="complete"){ l(); }
+      else{
+        w.addEventListener("DOMContentLoaded",l);
+        w.addEventListener("load",l);
+      }
+    })();
 
-<p><strong>Finance Lead:</strong><br>
-“But loans are regulated lending products. MCA isn’t subject to lending laws.”</p>
-
-<p><strong>Auditor:</strong><br>
-“Regulatory treatment helps, but accounting focuses on whether repayment is unavoidable.”</p>
-
-<p><strong>Discussion Question:</strong><br>
-Should regulatory classification override accounting substance?</p>
-
-<details>
-  <summary>Model Answer (Key Bullets)</summary>
-  <ul>
-    <li>Accounting is independent from legal regulation</li>
-    <li>Regulation is supportive, not determinative</li>
-    <li>Substance-over-form principle applies</li>
-  </ul>
-</details>
-
-<!-- 5 -->
-<h2>5. Financing Costs in MCA</h2>
-
-<p>
-Although MCA has no stated interest, the difference between cash received and expected
-total payback represents a financing component.
-</p>
-
-<p><strong>Discussion Question:</strong><br>
-Can an MCA have financing cost without interest?</p>
-
-<details>
-  <summary>Model Answer (Key Bullets)</summary>
-  <ul>
-    <li>Yes, implicit financing exists</li>
-    <li>No separate interest expense recognized</li>
-    <li>Cost is embedded in sales remittance</li>
-  </ul>
-</details>
-
-<!-- Paydown Table -->
-<h2>Stripe MCA – Example Paydown Table</h2>
-
-<table>
-  <tr>
-    <th>Date</th>
-    <th>Transaction</th>
-    <th>Sales Amount ($)</th>
-    <th>Paydown %</th>
-    <th>MCA Paydown ($)</th>
-    <th>Remaining Balance ($)</th>
-  </tr>
-  <tr>
-    <td>2025-12-05</td>
-    <td>Initial Payout (Merchant receives cash from Stripe)</td>
-    <td>–</td>
-    <td>–</td>
-    <td>–</td>
-    <td>100,000</td>
-  </tr>
-  <tr>
-    <td>2025-12-12</td>
-    <td>Sale #1</td>
-    <td>500</td>
-    <td>20%</td>
-    <td>100</td>
-    <td>99,900</td>
-  </tr>
-  <tr>
-    <td>2025-12-28</td>
-    <td>Sale #2</td>
-    <td>5,000</td>
-    <td>20%</td>
-    <td>1,000</td>
-    <td>98,900</td>
-  </tr>
-  <tr>
-    <td>2026-01-15</td>
-    <td>Sale #3</td>
-    <td>3,000</td>
-    <td>20%</td>
-    <td>600</td>
-    <td>98,300</td>
-  </tr>
-</table>
-
-<p class="note">
-For each sale, Stripe withholds 20% as MCA paydown.  
-The remaining 80% is remitted to the merchant the next day.
-</p>
-
-<!-- 7 -->
-<h2>7. ITGC Perspective: Auditing MCA</h2>
-
-<ul>
-  <li>Access controls over MCA setup</li>
-  <li>Automated calculation of paydown percentage</li>
-  <li>Interface controls between Stripe and GL</li>
-</ul>
-
-<h3>ITGC Test Procedures (Walkthrough / TOC)</h3>
-
-<table>
-  <tr>
-    <th>Control Area</th>
-    <th>Test Type</th>
-    <th>Example Procedure</th>
-  </tr>
-  <tr>
-    <td>MCA Configuration</td>
-    <td>Walkthrough</td>
-    <td>Trace one MCA contract from approval to system setup</td>
-  </tr>
-  <tr>
-    <td>Paydown Logic</td>
-    <td>TOC</td>
-    <td>Reperform 20% calculation for sample sales</td>
-  </tr>
-  <tr>
-    <td>GL Posting</td>
-    <td>TOC</td>
-    <td>Inspect automated journal entries</td>
-  </tr>
-</table>
+    ChannelIO('boot', {
+      pluginKey: "7a00a329-5130-4ac5-8000-8d9abc772efd",
+      position: "right",
+      align: "top",
+      zIndex: 9999
+    });
+  </script>
 
 </body>
 </html>
