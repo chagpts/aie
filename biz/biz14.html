@@ -1,246 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Merchant Cash Advance (MCA) – Accounting & Audit Study</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Merchant Cash Advance (MCA): Accounting & Audit Perspective</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
       margin: 40px;
       color: #222;
     }
-    h1, h2, h3, h4 {
-      margin-top: 32px;
+    h1, h2, h3 {
+      color: #1a1a1a;
+    }
+    h1 {
+      border-bottom: 3px solid #444;
+      padding-bottom: 10px;
+    }
+    h2 {
+      margin-top: 40px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
     }
     table {
-      width: 100%;
       border-collapse: collapse;
-      margin: 16px 0;
+      width: 100%;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    table, th, td {
+      border: 1px solid #999;
     }
     th, td {
-      border: 1px solid #ccc;
-      padding: 8px 10px;
+      padding: 10px;
       text-align: left;
+      vertical-align: top;
     }
     th {
-      background: #f4f4f4;
+      background-color: #f2f2f2;
     }
     .note {
-      font-size: 0.9em;
-      color: #555;
-      margin-top: 8px;
-    }
-    .callout {
-      background: #f8f9fb;
-      border-left: 4px solid #4a6cf7;
-      padding: 12px 16px;
-      margin: 16px 0;
-    }
-    .study-question {
-      margin-top: 16px;
-      font-weight: bold;
+      background: #f9f9f9;
+      border-left: 4px solid #666;
+      padding: 12px;
+      margin: 20px 0;
     }
     details {
-      margin-top: 8px;
+      margin: 10px 0 20px 0;
+      background: #fafafa;
+      padding: 10px;
+      border: 1px dashed #bbb;
     }
     summary {
       cursor: pointer;
+      font-weight: bold;
+    }
+    .footer {
+      margin-top: 60px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-<h1>Merchant Cash Advance (MCA) – Accounting & Audit Study</h1>
+<h1>Merchant Cash Advance (MCA): Accounting & Audit Perspective</h1>
 
-<p>
-Source:<br />
+<p><strong>Reference:</strong><br>
 <a href="https://stripe.com/resources/more/merchant-cash-advance" target="_blank">
 https://stripe.com/resources/more/merchant-cash-advance
 </a>
 </p>
 
-<hr />
+<p>
+This study material explains Merchant Cash Advance (MCA) using Stripe as an example,
+from a US GAAP accounting, audit, and regulatory perspective.
+</p>
 
 <h2>Stripe MCA – Example Paydown Table</h2>
 
 <table>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Transaction</th>
-      <th>Sales Amount ($)</th>
-      <th>Stripe Withholding %</th>
-      <th>MCA Paydown (20%) ($)</th>
-      <th>Payout to Merchant (80%) ($)</th>
-      <th>Remaining MCA Balance ($)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>2025-12-05</strong></td>
-      <td><strong>Initial MCA Payout to Merchant</strong></td>
-      <td>–</td>
-      <td>–</td>
-      <td>–</td>
-      <td><strong>100,000</strong></td>
-      <td><strong>100,000</strong></td>
-    </tr>
-    <tr>
-      <td>2025-12-12</td>
-      <td>Sale #1</td>
-      <td>500</td>
-      <td>20%</td>
-      <td>100</td>
-      <td>400</td>
-      <td>99,900</td>
-    </tr>
-    <tr>
-      <td>2025-12-28</td>
-      <td>Sale #2</td>
-      <td>5,000</td>
-      <td>20%</td>
-      <td>1,000</td>
-      <td>4,000</td>
-      <td>98,900</td>
-    </tr>
-    <tr>
-      <td>2026-01-15</td>
-      <td>Sale #3</td>
-      <td>3,000</td>
-      <td>20%</td>
-      <td>600</td>
-      <td>2,400</td>
-      <td>98,300</td>
-    </tr>
-  </tbody>
+  <tr>
+    <th>Date</th>
+    <th>Transaction</th>
+    <th>Sales Amount ($)</th>
+    <th>Stripe Withholding %</th>
+    <th>MCA Paydown (20%) ($)</th>
+    <th>Payout to Merchant (80%) ($)</th>
+    <th>Remaining MCA Balance ($)</th>
+  </tr>
+  <tr>
+    <td>2025-12-05</td>
+    <td>Initial MCA Payout to Merchant</td>
+    <td>–</td>
+    <td>–</td>
+    <td>–</td>
+    <td>100,000</td>
+    <td>100,000</td>
+  </tr>
+  <tr>
+    <td>2025-12-12</td>
+    <td>Sale #1 (Stripe withholds 20%)</td>
+    <td>500</td>
+    <td>20%</td>
+    <td>100</td>
+    <td>400</td>
+    <td>99,900</td>
+  </tr>
+  <tr>
+    <td>2025-12-28</td>
+    <td>Sale #2 (Stripe withholds 20%)</td>
+    <td>5,000</td>
+    <td>20%</td>
+    <td>1,000</td>
+    <td>4,000</td>
+    <td>98,900</td>
+  </tr>
+  <tr>
+    <td>2026-01-15</td>
+    <td>Sale #3 (Stripe withholds 20%)</td>
+    <td>3,000</td>
+    <td>20%</td>
+    <td>600</td>
+    <td>2,400</td>
+    <td>98,300</td>
+  </tr>
 </table>
 
 <p class="note">
 On the initial payout date, Stripe advances $100,000 to the merchant under an MCA arrangement.
-As sales occur, Stripe withholds 20% of each sale as MCA paydown and remits the remaining 80%
-to the merchant (typically the next business day). Paydowns fluctuate with sales volume and
-there is no fixed repayment schedule.
+As sales occur, Stripe automatically withholds 20% of each sale as MCA paydown and remits
+the remaining 80% of the sales proceeds to the merchant (typically the next business day).
+Paydowns fluctuate with sales volume across reporting periods (Dec 2025 – Jan 2026),
+and there is no fixed repayment schedule.
 </p>
 
-<hr />
-
-<h2>4. Finance vs Auditor – 3-Minute Discussion</h2>
-
-<p><strong>Finance Lead:</strong>  
-“This is an MCA, not a loan. There’s no fixed repayment schedule, so we don’t need to show it as debt.”</p>
-
-<p><strong>Auditor:</strong>  
-“Legally it may not be a loan, but economically it looks like one. Stripe advanced cash and expects recovery.”</p>
-
-<p><strong>Finance Lead:</strong>  
-“But repayment only happens if sales occur. If revenue drops, Stripe bears the risk.”</p>
-
-<p><strong>Auditor:</strong>  
-“That variability matters. We need to assess whether it’s substantive or merely formal.”</p>
-
-<p><strong>Conclusion:</strong>  
-“The accounting hinges on whether there is an unconditional obligation to repay.
-Substance over form drives the conclusion.”</p>
-
-<p class="study-question">
-Discussion Question: What single fact would most influence whether this is treated as debt?
-</p>
-
-<details>
-  <summary><strong>Model Answer (Key Bullets)</strong></summary>
-  <ul>
-    <li>Existence of unconditional repayment obligation</li>
-    <li>Substantive variability in sales</li>
-    <li>No fixed maturity or minimum payment</li>
-    <li>Provider bears real non-collection risk</li>
-  </ul>
-</details>
-
-<hr />
-
-<h2>6. Should the Effective Interest Rate (EIR) Apply to MCA?</h2>
+<h2>1. What Is a Merchant Cash Advance?</h2>
 
 <p>
-MCA arrangements generally do not have fixed or determinable cash flows at inception.
-As a result, the effective interest rate method under ASC 835 is typically not applied mechanically.
-</p>
-
-<div class="callout">
-<strong>Key Judgment:</strong><br />
-If cash flows become highly predictable and recovery is virtually assured,
-the arrangement may begin to resemble debt.
-</div>
-
-<p class="study-question">
-Discussion Question: When might an auditor insist on applying an interest model?
-</p>
-
-<details>
-  <summary><strong>Model Answer (Key Bullets)</strong></summary>
-  <ul>
-    <li>Predictable cash flows</li>
-    <li>Minimal sales volatility</li>
-    <li>Near-certain full recovery</li>
-    <li>Debt-like economic substance</li>
-  </ul>
-</details>
-
-<hr />
-
-<h2>7. ITGC Perspective: Auditing MCA Arrangements</h2>
-
-<p>
-From an ITGC standpoint, MCA repayment is system-driven.
-Errors in configuration or interfaces can cause large-scale misstatements.
+A Merchant Cash Advance (MCA) is not structured as a traditional loan. Instead,
+the provider purchases a portion of the merchant’s future receivables in exchange
+for an upfront cash payment.
 </p>
 
 <ul>
-  <li>Configuration of withholding percentage</li>
-  <li>Completeness of Stripe-to-GL interfaces</li>
-  <li>Automated calculation accuracy (20% / 80%)</li>
-  <li>Change management controls</li>
-  <li>Access restrictions</li>
+  <li>No stated interest rate</li>
+  <li>Repayment is tied to actual sales volume</li>
+  <li>No fixed maturity date</li>
+  <li>Payments fluctuate with daily sales</li>
+</ul>
+
+<p><strong>Discussion Question:</strong><br>
+Why does the absence of a fixed maturity date matter when assessing whether MCA is debt?
+</p>
+
+<details>
+  <summary>Model Answer (Key Bullets)</summary>
+  <ul>
+    <li>No unconditional obligation to repay</li>
+    <li>Cash flows are contingent, not time-based</li>
+    <li>Debt requires determinable repayment terms</li>
+  </ul>
+</details>
+
+<h2>2. MCA vs. Factoring vs. Loan</h2>
+
+<table>
+  <tr>
+    <th>Item</th>
+    <th>MCA</th>
+    <th>Factoring</th>
+    <th>Loan</th>
+  </tr>
+  <tr>
+    <td>Underlying asset</td>
+    <td>Future sales</td>
+    <td>Existing A/R</td>
+    <td>Cash</td>
+  </tr>
+  <tr>
+    <td>Repayment certainty</td>
+    <td>Variable</td>
+    <td>Mostly fixed</td>
+    <td>Fixed</td>
+  </tr>
+  <tr>
+    <td>Interest rate</td>
+    <td>None stated</td>
+    <td>Discount implied</td>
+    <td>Explicit</td>
+  </tr>
+  <tr>
+    <td>GAAP classification</td>
+    <td>Financing arrangement</td>
+    <td>Sale or secured borrowing</td>
+    <td>Debt</td>
+  </tr>
+</table>
+
+<p><strong>Discussion Question:</strong><br>
+Which feature creates the biggest accounting judgment difference between MCA and a loan?
+</p>
+
+<details>
+  <summary>Model Answer (Key Bullets)</summary>
+  <ul>
+    <li>Unconditional repayment obligation</li>
+    <li>Exposure to sales variability</li>
+  </ul>
+</details>
+
+<h2>3. Is MCA a Loan Under US GAAP?</h2>
+
+<p>
+Under US GAAP, MCA is generally not accounted for as a loan if the substance of the
+arrangement shows no unconditional obligation to repay.
+</p>
+
+<div class="note">
+Auditors apply substance over form. Even without the word “loan,” if repayment is
+effectively fixed, MCA may be recharacterized as debt.
+</div>
+
+<p><strong>Discussion Question:</strong><br>
+What evidence would an auditor look for to challenge non-debt treatment?
+</p>
+
+<details>
+  <summary>Model Answer (Key Bullets)</summary>
+  <ul>
+    <li>Predictable and stable sales history</li>
+    <li>Paydown structure ensuring full recovery</li>
+    <li>Lack of meaningful downside risk to provider</li>
+  </ul>
+</details>
+
+<h2>4. Debate Topic: Loan Regulation vs. MCA</h2>
+
+<p><strong>Finance Team Lead:</strong><br>
+Loans are heavily regulated. MCA is a purchase of future receivables, not a loan.</p>
+
+<p><strong>Auditor:</strong><br>
+Legal form matters less than economic substance under US GAAP.</p>
+
+<p><strong>Conclusion:</strong><br>
+Regulatory classification and accounting classification are separate analyses.</p>
+
+<p><strong>Discussion Question:</strong><br>
+Why can an arrangement be non-loan legally but still treated as debt for accounting?
+</p>
+
+<details>
+  <summary>Model Answer (Key Bullets)</summary>
+  <ul>
+    <li>Accounting focuses on cash flow obligations</li>
+    <li>Legal structure does not override GAAP principles</li>
+  </ul>
+</details>
+
+<h2>5. Does MCA Create Financing Cost?</h2>
+
+<p>
+Yes. Even without stated interest, MCA embeds an implied financing cost.
+</p>
+
+<p><strong>Discussion Question:</strong><br>
+Why is financing cost recognized even when no interest rate is stated?
+</p>
+
+<details>
+  <summary>Model Answer (Key Bullets)</summary>
+  <ul>
+    <li>Time value of money still exists</li>
+    <li>Provider expects recovery in excess of cash advanced</li>
+  </ul>
+</details>
+
+<h2>6. Should the Effective Interest Rate (EIR) Method Apply to MCA?</h2>
+
+<p>
+The EIR method is generally not mechanically applied because cash flows are not
+fixed or determinable at inception.
+</p>
+
+<p><strong>Discussion Question:</strong><br>
+Under what circumstances might an auditor insist on applying an effective interest model?
+</p>
+
+<details>
+  <summary>Model Answer (Key Bullets)</summary>
+  <ul>
+    <li>When repayment becomes highly predictable</li>
+    <li>When variability is no longer substantive</li>
+  </ul>
+</details>
+
+<h2>7. ITGC Perspective: Auditing MCA Arrangements</h2>
+
+<ul>
+  <li>System configuration controls</li>
+  <li>Interface and completeness controls</li>
+  <li>Automated calculation logic</li>
+  <li>Change management and access controls</li>
 </ul>
 
 <h3>ITGC Test Procedures – Walkthrough & TOC</h3>
 
-<h4>Walkthrough</h4>
-<ul>
-  <li>Trace one sale from Stripe to GL</li>
-  <li>Verify 20% withholding logic</li>
-  <li>Confirm 80% payout to merchant</li>
-</ul>
-
-<h4>Test of Controls (TOC)</h4>
-
 <table>
-  <thead>
-    <tr>
-      <th>Control Area</th>
-      <th>Description</th>
-      <th>Audit Test</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Configuration</td>
-      <td>MCA % approved and configured</td>
-      <td>Inspect approval, reperform calc</td>
-    </tr>
-    <tr>
-      <td>Interface</td>
-      <td>All sales captured</td>
-      <td>Reconcile Stripe to GL</td>
-    </tr>
-    <tr>
-      <td>Change Mgmt</td>
-      <td>Approved changes only</td>
-      <td>Inspect tickets & UAT</td>
-    </tr>
-  </tbody>
+  <tr>
+    <th>Control Area</th>
+    <th>Control Description</th>
+    <th>Audit Test Example</th>
+  </tr>
+  <tr>
+    <td>Configuration</td>
+    <td>MCA withholding % approved</td>
+    <td>Inspect approval and reperform calculation</td>
+  </tr>
+  <tr>
+    <td>Interface</td>
+    <td>Sales data completeness</td>
+    <td>Reconcile Stripe to GL</td>
+  </tr>
+  <tr>
+    <td>Access Control</td>
+    <td>Restricted MCA parameter changes</td>
+    <td>Review user access listings</td>
+  </tr>
 </table>
+
+<div class="footer">
+© 2026 Cha GPTs. All rights reserved.
+</div>
 
 </body>
 </html>
